@@ -16,6 +16,6 @@
 //    require __DIR__ . '/frontend/config/main.php',
 //    require __DIR__ . '/frontend/config/main-local.php'
 //);
-echo "<meta http-equiv='refresh' content='0;URL=http://192.168.1.50:8888/deposite/frontend/web/index.php?r=site/index' />";
+echo "<meta http-equiv='refresh' content='0;URL=http://192.168.1.54:80/deposite/frontend/web/index.php?r=site/index' />";
 //(new yii\web\Application($config))->run();
 

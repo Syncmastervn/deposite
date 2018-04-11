@@ -30,7 +30,7 @@
         </tr>
     </thead>
     <tbody>
-    <? foreach($data as $row): ?>
+    <?php foreach($data as $row): ?>
         <tr>
         <?php if($row['image']===null): ?>
             <th><?= $row['billCode'] ?></th>
@@ -47,7 +47,7 @@
             <th class="date-db"><?= $row['date'] ?></th>
             <th><?= $row['extended'] ?></th>
         </tr>
-    <? endforeach; ?>
+    <?php endforeach; ?>
     </tbody>
 </table>
 

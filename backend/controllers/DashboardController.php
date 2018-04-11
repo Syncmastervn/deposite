@@ -22,6 +22,7 @@ use backend\models\InvoiceUpdate;
 use backend\models\CloseInvoiceDate;
 use backend\models\UploadImage;
 use backend\models\InvoiceLimitDelete;
+use backend\models\InvoiceCreateByDate;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -346,6 +347,26 @@ class DashboardController extends Controller
             return $this->render('create_invoice',['model'=>$model,'result'=>$result]);
         }
         
+    }
+    
+    public function actionInvoiceCreated(){
+        $model = new InvoiceCreateByDate();
+        $request = Yii::$app->request;
+        $invoice = null;
+        
+        if($model->load(Yii::$app->request->post()) and $model->validate())
+        {
+            $from_date  = $request->post('InvoiceCreateByDate')['date_begin'];
+            $to_date    = $request->post('InvoiceCreateByDate')['date_end'];
+            $invoice = Invoice::find()
+                        ->where(['>=','date_on', $from_date])
+                        ->andWhere(['<=','date_on',$to_date])
+                        ->all();
+        }
+        return $this->render('invoice-created',[
+                'model' => $model,
+                'invoice'  => $invoice
+        ]);
     }
     
 //    public function actionUploadImage() 
