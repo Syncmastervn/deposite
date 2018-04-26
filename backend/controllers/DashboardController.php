@@ -465,4 +465,29 @@ class DashboardController extends Controller
         var_dump($invoice);
     }
     
+    public function actionApi(){
+        $request = Yii::$app->request;
+        switch($request->get('data'))
+        {
+            case 'chkBillCode':
+                $billcode = $request->get('billcode');
+                $dbResult = Invoice::find()
+                        ->where(['billCode'=>$billcode])
+                        ->asArray()
+                        ->one();
+                if($dbResult != null)
+                {
+                    echo json_encode($dbResult);
+                } else
+                {
+                    echo 'false';
+                }
+                break;
+        }
+    }
+    
+    public function actionModal(){
+        return $this->render('bootstrap-modal');
+    }
+    
 }

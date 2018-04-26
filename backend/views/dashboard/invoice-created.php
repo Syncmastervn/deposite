@@ -31,7 +31,7 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
         </div>
         <hr>
         <div>
-            <table id="datatable">
+            <table id="datatable" class="display compact">
                 <thead>
                     <tr>
                         <th>Mã HĐ</th>

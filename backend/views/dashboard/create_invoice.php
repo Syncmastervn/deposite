@@ -9,6 +9,7 @@
 $this->registerJsFile(Yii::getAlias('@web').'/js/jquery.dataTables.min.js',['depends' => 'yii\web\JqueryAsset']);
 $this->registerJsFile(Yii::getAlias('@web').'/js/invoice-create.js',['depends' => 'yii\web\JqueryAsset']);
 $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
+$this->registerCssFile(Yii::getAlias('@web').'/css/invoice-create.css');
 
 $this->registerJsFile(Yii::getAlias('@web').'/js/jquery-ui.js',['depends' => 'yii\web\JqueryAsset']);
 $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
@@ -37,3 +38,28 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
     <?= $form->field($model,'description')->textArea(['rows'=>4]); ?>
     <?= Html::submitButton('Xuất hoá đơn', ['class' => 'btn btn-success']) ?>
 <?php $form = ActiveForm::end(); ?>
+
+<!-- Trigger/Open The Modal -->
+<button id="modalButton">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+  <div class="modal-header">
+      <span class="close"><font size="25" color="red">&times;</font></span>
+    <h3 class="message-title">Thông Báo</h2>
+  </div>
+  <div class="modal-body">
+      <p class="message-header"><b>Mã hoá đơn không hợp lệ</b></p>
+    <p class="message-content">Trùng mã hoá đơn</p>
+  </div>
+  <div class="modal-footer">
+    
+  </div>
+</div>
+  
+<script>
+
+</script>
