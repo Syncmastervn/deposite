@@ -473,6 +473,7 @@ class DashboardController extends Controller
                 $billcode = $request->get('billcode');
                 $dbResult = Invoice::find()
                         ->where(['billCode'=>$billcode])
+                        ->andWhere(['status'=>1])
                         ->asArray()
                         ->one();
                 if($dbResult != null)
