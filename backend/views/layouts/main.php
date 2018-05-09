@@ -101,7 +101,18 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">
+            <?php 
+                $sessGet = Yii::$app->session->get('userId');
+                if($sessGet === null)
+                {
+                    echo "Chưa đăng nhập user";
+                } else
+                {
+                    echo "UserId: " . $sessGet;
+                }
+            ?>
+        </p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
