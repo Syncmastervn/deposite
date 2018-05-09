@@ -369,30 +369,30 @@ class DashboardController extends Controller
         ]);
     }
     
-//    public function actionUploadImage() 
-//    {
-//        $model = new UploadImage();
-//        if (Yii::$app->request->isPost) {
-//            $request = Yii::$app->request;
-//            $id = $request->post('UploadImage')['id'];
-//            $file_name = $id . '_' . rand(100, 500);
-//            $model->image = UploadedFile::getInstance($model, 'image');
-//            if ($model->upload($file_name,$id)) {
-//                // file is uploaded successfully
-//                echo $request->post('UploadImage')['id'] . "<br>";
-//                echo "File successfully uploaded";
-//                $record = Invoice::find()
-//                        ->select('image')
-//                        ->where(['invoiceID'=>$id])
-//                        ->one();
-//                return $this->render('upload_image_success',['link'=>$this->behav->uploadFolder().$record['image']]);
-//            }
-//        } else
-//        {
-//            $model->id = Yii::$app->request->get('id',0);
-//        }
-//        return $this->render('upload_image', ['model' => $model]);
-//    }
+    public function actionUploadImage() 
+    {
+        $model = new UploadImage();
+        if (Yii::$app->request->isPost) {
+            $request = Yii::$app->request;
+            $id = $request->post('UploadImage')['id'];
+            $file_name = $id . '_' . rand(100, 500);
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->upload($file_name,$id)) {
+                // file is uploaded successfully
+                echo $request->post('UploadImage')['id'] . "<br>";
+                echo "File successfully uploaded";
+                $record = Invoice::find()
+                        ->select('image')
+                        ->where(['invoiceID'=>$id])
+                        ->one();
+                return $this->render('upload_image_success',['link'=>$this->behav->uploadFolder().$record['image']]);
+            }
+        } else
+        {
+            $model->id = Yii::$app->request->get('id',0);
+        }
+        return $this->render('upload_image', ['model' => $model]);
+    }
 
     /**
      * Displays homepage.

@@ -17,7 +17,7 @@ class BehaviModel extends Model
     }
     
     public function uploadFolder(){
-        $hosting = $_SERVER['SERVER_NAME'] . ":8888" . '/deposite/uploads/';
+        $hosting = $_SERVER['SERVER_NAME'] . ":80" . '/deposite/uploads/';
         return $hosting;
     }
 }
