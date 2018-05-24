@@ -35,6 +35,12 @@ class DataRun extends Model
         }
     }
     
+    public function Authority($id)
+    {
+        $user = User::findOne($id);
+        return $user->authID;
+    }
+    
     public function GenToken($id){
         $token = md5(rand(1000,5000));
         $user = User::findOne($id);

@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Applications/MAMP/htdocs/deposite/backend/views/layouts/main.php</file>
-            <file>file:/Applications/MAMP/htdocs/deposite/frontend/controllers/SiteController.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/controllers/DashboardController.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/views/dashboard/register.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/views/site/login.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/models/Register.php</file>
         </group>
     </open-files>
 </project-private>

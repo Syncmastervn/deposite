@@ -89,8 +89,9 @@ class SiteController extends Controller
                 $this->sess = Yii::$app->session;
                 $this->sess->open();
                 
-                $this->sess->set('userId',$userId); 
+                $this->sess->set('userId',$userId);
                 $this->sess->set('token',$token);
+                $this->sess->set('authority',$this->sql->authority($userId));
                 return $this->render('login_success',['username'=>$username]);
             } 
         }

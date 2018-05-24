@@ -30,13 +30,15 @@ AppAsset::register($this);
     <?php $this->head() ?>
     <style>
     .my-navbar {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7d7e7d+0,0e0e0e+100;Black+3D */
-    background: #7d7e7d; /* Old browsers */
-    background: -moz-linear-gradient(top, #7d7e7d 0%, #0e0e0e 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #7d7e7d 0%,#0e0e0e 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
-}
+        background: rgba(95,111,128,1);
+        background: -moz-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
+        background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(95,111,128,1)), color-stop(100%, rgba(55,66,77,1)));
+        background: -webkit-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
+        background: -o-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
+        background: -ms-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
+        background: linear-gradient(to bottom, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5f6f80', endColorstr='#37424d', GradientType=0 );
+    }
     </style>
 </head>
 <body>
@@ -59,14 +61,15 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => 'http://localhost/deposite/frontend/web/index.php?r=site/index'],
         ['label' => 'Login', 'url' => ['/site/login']],
-        ['label' => 'Register', 'url' => ['/site/register']],
         ['label' => 'Thao tác',
                 'url' => ['#'],
-                'template' => '<a href="{url}" >{label}<i class="fa fa-angle-left pull-right"></i></a>',
+                'template' => '<a href="{url}">{label}<i class="fa fa-angle-left pull-right"></i></a>',
             'items' => [
                     ['label' => 'Tạo hoá đơn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-create'],
                     ['label' => 'Tìm hoá đơn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/search'],
                     ['label' => 'Xoá gia hạn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-extend-delete'],
+                    
+                    ['label' => 'Đăng ký', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/register'],
                     ['label' => 'Hoá đơn đã tạo', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-created'],
                     ['label' => 'Truy xuất hoá đơn đóng', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-close-from-date'],
                     ['label' => 'Logout', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/logout']
@@ -104,14 +107,12 @@ AppAsset::register($this);
         <p class="pull-left">
             <?php 
                 $sessGet = Yii::$app->session->get('userId');
-                if($sessGet === null)
-                {
-                    echo "Chưa đăng nhập user";
-                } else
-                {
-                    echo "UserId: " . $sessGet;
-                }
-            ?>
+                $authority = Yii::$app->session->get('authority');
+                if($sessGet === null): ?>
+            <b>Chưa đăng nhập</b>
+            <?php else: ?>
+            <b>Người dùng hợp lệ</b>
+            <?php endif; ?>
         </p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>

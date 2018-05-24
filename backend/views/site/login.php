@@ -11,12 +11,11 @@ $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <?php
-        if($username != null)
-        {
-            echo 'USERNAME: ' . $username;
-        }
-    ?>
+    <?php if($username !== null ): ?>
+    <div class="alert alert-danger">
+        <strong>Lỗi: </strong> Tên đăng nhập và mật khẩu không đúng, xin vui lòng nhập lại
+    </div>
+    <?php endif; ?>
    
     <h1><?= Html::encode($this->title) ?></h1>
 

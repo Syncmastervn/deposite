@@ -23,6 +23,8 @@ use backend\models\CloseInvoiceDate;
 use backend\models\UploadImage;
 use backend\models\InvoiceLimitDelete;
 use backend\models\InvoiceCreateByDate;
+use backend\models\Register;
+use backend\models\ChangePassword;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -66,8 +68,10 @@ class DashboardController extends Controller
         if($actionActive !== 'login' && $this->sess->get('userId') === null)
         {
             $this->redirect(array('site/login'));
+            
         }elseif($this->sess->get('userId') !== null)
         {
+            
             $token = $this->sql->GetToken($this->sess->get('userId'));
             if($this->sess->get('token') !== $token)
             {
@@ -85,6 +89,8 @@ class DashboardController extends Controller
     
     public function actionLogout(){
         session_destroy();
+        $this->sess->destroy();
+        $this->redirect(array('site/login'));
     }
     
     public function actionInvoiceExtend(){
@@ -116,6 +122,65 @@ class DashboardController extends Controller
         {
             $this->redirect(array('site/index'));
         }
+    }
+    
+    // REGISTER 
+    public function actionRegister(){
+        $request = Yii::$app->request;
+        $model = new Register();
+        if($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            $username = $request->post('Register')['username'];
+            $fullname = $request->post('Register')['fullname'];
+            $user = User::find()
+                    ->where(['userName'=>$username])
+                    ->one();
+            if($user !== null)
+            {
+                return $this->render('register',['data'=>1,'model'=>$model,'username'=>$username]);
+            } else
+            {
+                $user = new User();
+                $user->userName = $username;
+                $user->password = md5($request->post('Register')['password']);
+                $user->authID = 2;
+                $user->status = 1;
+                $user->token = "0";
+                $user->fullName = $fullname;
+                $user->save();
+                $model = new Register();
+                return $this->render('register',['data'=>2,'model'=>$model,'username'=>$username]);
+            }
+        }
+        
+        return $this->render('register',['model'=>$model,'data'=>0]);
+    }
+    
+    // CHANGE PASSWORD
+    public function actionChangepassword(){
+        $model = new ChangePassword();
+        $request = Yii::$app->request;
+        $signal = 0;
+        //$session = Yii::$app->session;
+        if($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            $username = $request->post('ChangePassword')['username'];
+            $oldpassword = $request->post('ChangePassword')['old_password'];
+            $user = User::find()
+                    ->where(['userName'=>$username])
+                    ->andWhere(['password'=>md5($oldpassword)])
+                    ->one();
+            if($user === null)
+            {
+                $signal = -1;
+            } else
+            {
+                $user->password = md5($request->post('ChangePassword')['password']);
+                $user->update();
+                $signal = 1;
+            }
+        }
+        return $this->render('change-password',['model'=>$model,'signal'=>$signal]);
     }
     
     public function actionInvoiceExtendDelete(){

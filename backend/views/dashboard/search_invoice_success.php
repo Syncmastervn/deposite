@@ -17,6 +17,8 @@ $this->registerJsFile(Yii::getAlias('@web').'/js/jquery.dataTables.min.js',['dep
 $this->registerJsFile(Yii::getAlias('@web').'/js/table.searchSite.js',['depends' => 'yii\web\JqueryAsset']);
 
 $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
+
+$hosting = $_SERVER['SERVER_NAME'] . ":80" . '/deposite/uploads/';
 ?>
 
 
@@ -44,9 +46,11 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
             <th><?= $row['extended'] ?></th>
             <th class="descript"><?= $row['description'] ?></th>
             <th>
+            <!-- <img src="http://delete_icon.png"> -->
+                <a href="index.php?r=dashboard/invoice-close&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="extend"><?= Html::img('http://'.$hosting.'delete_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
             <?php echo Html::a('Gia hạn', ['dashboard/invoice-extend', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
             <?php echo Html::a('Chỉnh sửa', ['dashboard/invoice-update', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-warning btn-lrg']); ?>
-            <?php echo Html::a('Kết thúc', ['dashboard/invoice-close', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-danger btn-sm']); ?>
+           
             </th>
         </tr>
     <?php endforeach; ?>

@@ -16,7 +16,18 @@
 <div class="site-index">
 
     <h1>DANH SÁCH HOÁ ĐƠN</h1>
-    <h3><div class="currency-converter"><?= $depositeSum ?></div></h3>
+    <p class="pull-left">
+        <?php 
+            $sessGet = Yii::$app->session->get('userId');
+            $authority = Yii::$app->session->get('authority');
+            if($sessGet === null): ?>
+        <?php var_dump($sessGet); ?>
+        <b>Chưa đăng nhập</b>
+        <?php else: ?>
+        <h3><div class="currency-converter"><?= $depositeSum ?></div></h3>
+        <?php endif; ?>
+    </p>
+    
     <div class="body-content">
 <table id="datatable" class="display compact">
     <thead>
