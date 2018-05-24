@@ -21,10 +21,14 @@
             $sessGet = Yii::$app->session->get('userId');
             $authority = Yii::$app->session->get('authority');
             if($sessGet === null): ?>
-        <?php var_dump($sessGet); ?>
-        <b>Chưa đăng nhập</b>
+        <div class="alert alert-warning">
+            <strong>Chưa đăng nhập</strong> 
+        </div>
         <?php else: ?>
-        <h3><div class="currency-converter"><?= $depositeSum ?></div></h3>
+        
+        <div class="alert alert-success">
+            <strong><div  style="font-size:135%;" class="currency-converter"><?= $depositeSum ?></div></strong>
+        </div>
         <?php endif; ?>
     </p>
     
