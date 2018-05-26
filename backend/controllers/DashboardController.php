@@ -161,6 +161,11 @@ class DashboardController extends Controller
         return $this->render('register',['model'=>$model,'data'=>0]);
     }
     
+    public function actionMonitor(){
+        
+        return $this->render('monitor',['model'=>$model]);
+    }
+    
     // CHANGE PASSWORD
     public function actionChangepassword(){
         $model = new ChangePassword();

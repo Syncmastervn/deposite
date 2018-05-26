@@ -47,7 +47,7 @@ $hosting = $_SERVER['SERVER_NAME'] . ":80" . '/deposite/uploads/';
             <th class="descript"><?= $row['description'] ?></th>
             <th>
             <!-- <img src="http://delete_icon.png"> -->
-                <a href="index.php?r=dashboard/invoice-close&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="extend"><?= Html::img('http://'.$hosting.'delete_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
+                <a href="index.php?r=dashboard/invoice-close&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'delete_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
             <?php echo Html::a('Gia hạn', ['dashboard/invoice-extend', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
             <?php echo Html::a('Chỉnh sửa', ['dashboard/invoice-update', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-warning btn-lrg']); ?>
            
