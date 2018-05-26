@@ -21,16 +21,13 @@ use Yii;
  * @property int $typeID
  * @property string $image
  * @property string $date_on
+ * @property string $date_update
  * @property string $date_off
  * @property int $price
  * @property int $date_live
  * @property string $description
  * @property int $extended
  * @property int $status
- *
- * @property User $user
- * @property ProductType $type
- * @property InvoiceLimit[] $invoiceLimits
  */
 class Invoice extends \yii\db\ActiveRecord
 {
@@ -50,14 +47,12 @@ class Invoice extends \yii\db\ActiveRecord
         return [
             [['billCode', 'customerName', 'cusAddress', 'userID', 'deposite_price', 'selling_price', 'weight_total', 'weight_gold', 'typeID'], 'required'],
             [['userID', 'deposite_price', 'selling_price', 'weight_total', 'weight_gold', 'typeID', 'price', 'date_live', 'extended', 'status'], 'integer'],
-            [['date_on', 'date_off'], 'safe'],
+            [['date_on', 'date_update', 'date_off'], 'safe'],
             [['billCode', 'customerName', 'image'], 'string', 'max' => 50],
             [['cusAddress'], 'string', 'max' => 100],
             [['cusMobile'], 'string', 'max' => 30],
             [['cusIdentity'], 'string', 'max' => 20],
             [['description'], 'string', 'max' => 200],
-            [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'userID']],
-            [['typeID'], 'exist', 'skipOnError' => true, 'targetClass' => ProductType::className(), 'targetAttribute' => ['typeID' => 'typeID']],
         ];
     }
 
@@ -81,6 +76,7 @@ class Invoice extends \yii\db\ActiveRecord
             'typeID' => 'Type ID',
             'image' => 'Image',
             'date_on' => 'Date On',
+            'date_update' => 'Date Update',
             'date_off' => 'Date Off',
             'price' => 'Price',
             'date_live' => 'Date Live',
@@ -88,29 +84,5 @@ class Invoice extends \yii\db\ActiveRecord
             'extended' => 'Extended',
             'status' => 'Status',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['userID' => 'userID']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getType()
-    {
-        return $this->hasOne(ProductType::className(), ['typeID' => 'typeID']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getInvoiceLimits()
-    {
-        return $this->hasMany(InvoiceLimit::className(), ['invoiceID' => 'invoiceID']);
     }
 }

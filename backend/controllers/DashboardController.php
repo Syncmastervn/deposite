@@ -102,9 +102,14 @@ class DashboardController extends Controller
 
             $param = ['id'=>$id];
             $record = Yii::$app->db->createCommand("SELECT date_on, extended FROM invoice WHERE invoiceID = :id AND status = 1 LIMIT 1",$param)->queryOne();
-
+            
+            $hour = 12;
+            $get_day= strtotime("today $hour:00");
+            $today = date("Y-m-d H:i:s", $get_day);
+            
             $invoice_update = Invoice::findOne($id);
             $invoice_update->extended = $record['extended'] + 1;
+            $invoice_update->date_update = $today;
             $invoice_update->update();
 
             $invoice_update = Invoice::findOne($id);
