@@ -70,6 +70,7 @@ AppAsset::register($this);
                     ['label' => 'Xoá gia hạn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-extend-delete'],
                     
                     ['label' => 'Đăng ký', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/register'],
+                    ['label' => 'Kiểm tra giao dịch', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/monitor'],
                     ['label' => 'Hoá đơn đã tạo', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-created'],
                     ['label' => 'Truy xuất hoá đơn đóng', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-close-from-date'],
                     ['label' => 'Logout', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/logout']
