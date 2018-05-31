@@ -25,6 +25,7 @@ use backend\models\InvoiceLimitDelete;
 use backend\models\InvoiceCreateByDate;
 use backend\models\Register;
 use backend\models\ChangePassword;
+use backend\models\Monitor; 
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -161,10 +162,6 @@ class DashboardController extends Controller
         return $this->render('register',['model'=>$model,'data'=>0]);
     }
     
-    public function actionMonitor(){
-        
-        return $this->render('monitor',['model'=>$model]);
-    }
     
     // CHANGE PASSWORD
     public function actionChangepassword(){
@@ -443,6 +440,44 @@ class DashboardController extends Controller
                 'invoice'  => $invoice
         ]);
     }
+    
+    public function actionMonitor(){
+        $model = new Monitor();
+        
+        $hour = 12;
+        $get_day= strtotime("today $hour:00");
+        $today = date("Y-m-d H:i:s", $get_day);
+        $date = strtotime("today");
+        $get_date = date("Y-m-d");
+        
+        
+        
+        $invoiceUpdate = Invoice::find()
+                ->where(['date_update'=>$today])
+                ->all();
+        
+        $invoiceDelete = Invoice::find()
+                ->where(['date_off'=>$today])
+                ->andWhere(['status'=>0])
+                ->all();
+        
+        $invoiceCreate = Invoice::find()
+                ->where(['>=','date_on',$get_date . ' 8:00:00'])
+                ->andWhere(['<=','date_on',$get_date . ' 12:00:00'])
+                ->all();
+                //*** Mr. Nhân do a flavour 
+                //->createCommand()->getRawSql();
+                //print_r($invoiceDelete);
+        
+        
+        
+        return $this->render('monitor',[
+            'model'=>$model,
+            'invoiceCreate'=>$invoiceCreate,
+            'invoiceUpdate'=>$invoiceUpdate,
+            'invoiceDelete'=>$invoiceDelete
+            ]);
+    }    
     
     public function actionUploadImage() 
     {

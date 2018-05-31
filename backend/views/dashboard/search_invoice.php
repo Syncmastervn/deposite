@@ -4,11 +4,11 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+    use yii\helpers\Html;
+    use yii\bootstrap\ActiveForm;
 
-$this->title = 'Search';
-$this->params['breadcrumbs'][] = $this->title;
+    $this->title = 'Search';
+    $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="search-invoice">
 
