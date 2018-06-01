@@ -20,5 +20,14 @@ $(document).ready(function(){
     $("#monitor-date_search").datepicker({
         dateFormat: "yy-mm-dd"
     });
+    
+    $(".date-db").each(function(){
+            var content = $(this).html();
+            var date = new Date(content);
+            var today = new Date();
+            var diff = new Date(today - date);
+            var days = diff/1000/60/60/24;
+            $(this).html(Math.round(days) + " ngày");
+    });
 });
 

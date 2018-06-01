@@ -443,9 +443,7 @@ class DashboardController extends Controller
     
     public function actionMonitor(){
         $model = new Monitor();
-        
-        
-        
+         
         if($model->load(Yii::$app->request->post()) && $model->validate())
         {
             $get_date = Yii::$app->request->post('Monitor')['date_search'];
@@ -460,8 +458,8 @@ class DashboardController extends Controller
         }
         
         $invoiceUpdate = Invoice::find()
-                    ->where(['date_update'=>$today])
-                    ->all();
+                ->where(['date_update'=>$today])
+                ->all();
         
         $invoiceDelete = Invoice::find()
                 ->where(['date_off'=>$today])

@@ -20,12 +20,17 @@
  
    
     <h1><?= Html::encode($this->title) ?></h1>
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-4 col-sm-4">
+        <?php $form = ActiveForm::begin(['id'=>'MonitorPage','options'=>['class'=>'form']]); ?>
+            <?= $form->field($model,'date_search',['inputOptions' => ['autocomplete'=>'off']]); ?>
+            <?= Html::submitButton('Push',['class'=>'btn btn-success']); ?>
+        <?php $form = ActiveForm::end(); ?></div>
+        </div>
+    </div>
     
-    <?php $form = ActiveForm::begin(['id'=>'MonitorPage']); ?>
-        <?= $form->field($model,'date_search',['inputOptions' => ['autocomplete'=>'off']]); ?>
-        <?= Html::submitButton('Push',['class'=>'btn btn-success']); ?>
-    <?php $form = ActiveForm::end(); ?>
-    
+    <p></p>
     <?php if(!empty($invoiceUpdate)): ?>
     <div class="row">
         <hr>
@@ -36,9 +41,9 @@
                     <tr class="warning">
                         <th>Mã HĐ</th>
                         <th>Tên khách hàng</th>
-                        <th>Số tiền cầm</th>
                         <th>Nội dung</th>
-                        <th>Tổng cân nặng</th>
+                        <th>Lần gia hạn</th>
+                        <th>Ngày sử dụng</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,15 +52,20 @@
                     <tr>
                         <th><?= $row['billCode']; ?></th>
                         <th><?= $row['customerName'] ?></th>
-                        <th class="currency-converter"><?= $row['deposite_price'] ?></th>
                         <th><?= $row['description'] ?></th>
-                        <th><?= $row['weight_total'] ?></th>
+                        <th class="currency-converter"><?= $row['extended'] ?></th>
+                        <th class="date-db"><?= $row['date_on'] ?></th>
                     </tr>
                  <?php endforeach; ?>
                 <?php endif; ?>
                 </tbody>
             </table>
         </div>
+    </div>
+    <?php else: ?>
+    <p>
+    <div class="alert alert-warning">
+        <strong> Không có hoá đơn được gia hạn trong ngày </strong> 
     </div>
     <?php endif; ?>
     
@@ -71,7 +81,7 @@
                         <th>Tên khách hàng</th>
                         <th>Số tiền cầm</th>
                         <th>Nội dung</th>
-                        <th>Tổng cân nặng</th>
+                        <th>Ngày sử dụng</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,13 +92,18 @@
                         <th><?= $row['customerName'] ?></th>
                         <th class="currency-converter"><?= $row['deposite_price'] ?></th>
                         <th><?= $row['description'] ?></th>
-                        <th><?= $row['weight_total'] ?></th>
+                        <th class="date-db"><?= $row['date_on'] ?></th>
                     </tr>
                  <?php endforeach; ?>
                 <?php endif; ?>
                 </tbody>
             </table>
         </div>
+    </div>
+    <?php else: ?>
+    <p>
+    <div class="alert alert-info">
+        <strong> Không có hoá đơn kết thúc trong ngày </strong> 
     </div>
     <?php endif; ?>
     
@@ -122,6 +137,11 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <?php else: ?>
+    <p>
+    <div class="alert alert-success">
+        <strong> Không có hoá đơn được tạo trong ngày </strong> 
     </div>
     <?php endif; ?>
     
