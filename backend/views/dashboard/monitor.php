@@ -22,12 +22,12 @@
     <h1><?= Html::encode($this->title) ?></h1>
     
     <?php $form = ActiveForm::begin(['id'=>'MonitorPage']); ?>
-        <?= $form->field($model,'date_search'); ?>
+        <?= $form->field($model,'date_search',['inputOptions' => ['autocomplete'=>'off']]); ?>
         <?= Html::submitButton('Push',['class'=>'btn btn-success']); ?>
     <?php $form = ActiveForm::end(); ?>
     
     <?php if(!empty($invoiceUpdate)): ?>
-    <div class="row"> 
+    <div class="row">
         <hr>
         <h3> Gia hạn thêm </h3>
         <div>
@@ -58,7 +58,6 @@
         </div>
     </div>
     <?php endif; ?>
-    
     
     <?php if(!empty($invoiceDelete)): ?>
     <div class="row"> 

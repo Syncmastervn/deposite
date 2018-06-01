@@ -444,33 +444,39 @@ class DashboardController extends Controller
     public function actionMonitor(){
         $model = new Monitor();
         
-        $hour = 12;
-        $get_day= strtotime("today $hour:00");
-        $today = date("Y-m-d H:i:s", $get_day);
-        $date = strtotime("today");
-        $get_date = date("Y-m-d");
         
         
+        if($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            $get_date = Yii::$app->request->post('Monitor')['date_search'];
+            $today = $get_date . " 12:00:00";          
+        } else
+        {
+            $hour = 12;
+            $get_day= strtotime("today $hour:00");
+            $today = date("Y-m-d H:i:s", $get_day);
+            $date = strtotime("today");
+            $get_date = date("Y-m-d");
+        }
         
         $invoiceUpdate = Invoice::find()
-                ->where(['date_update'=>$today])
-                ->all();
+                    ->where(['date_update'=>$today])
+                    ->all();
         
         $invoiceDelete = Invoice::find()
                 ->where(['date_off'=>$today])
                 ->andWhere(['status'=>0])
                 ->all();
-        
+
         $invoiceCreate = Invoice::find()
                 ->where(['>=','date_on',$get_date . ' 8:00:00'])
-                ->andWhere(['<=','date_on',$get_date . ' 12:00:00'])
+                ->andWhere(['<=','date_on',$get_date . ' 13:00:00'])
                 ->all();
                 //*** Mr. Nhân do a flavour 
                 //->createCommand()->getRawSql();
                 //print_r($invoiceDelete);
         
-        
-        
+           
         return $this->render('monitor',[
             'model'=>$model,
             'invoiceCreate'=>$invoiceCreate,
