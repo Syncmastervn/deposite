@@ -331,6 +331,7 @@ class DashboardController extends Controller
         
         $model = new SearchInvoice();
         $request = Yii::$app->request;
+        $signal = 0;
         
         if($model->load(Yii::$app->request->post()) && $model->validate() )
         {
@@ -345,13 +346,18 @@ class DashboardController extends Controller
             {
                 $result = $this->sql->SearchByBillCode($data['billcode']);
                 if($result != null)
+                {
                     return $this->render('search_invoice_success',['data'=>$result]);
+                } 
                 else 
-                    return $this->render('search_invoice_failed');
+                {
+                    $signal = 1;
+                    return $this->render('search_invoice',['model'=>$model,'signal'=>$data['billcode']]);
+                }
             }
         } else
         {
-            return $this->render('search_invoice',['model'=>$model]);
+            return $this->render('search_invoice',['model'=>$model,'signal'=>$signal]);
         }
         
         

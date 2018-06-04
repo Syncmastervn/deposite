@@ -6,6 +6,8 @@
 
     use yii\helpers\Html;
     use yii\bootstrap\ActiveForm;
+    
+    $this->registerJsFile(Yii::getAlias('@web').'/js/search-page.js',['depends' => 'yii\web\JqueryAsset']);
 
     $this->title = 'Search';
     $this->params['breadcrumbs'][] = $this->title;
@@ -15,6 +17,14 @@
    
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p>
+        <?php if($signal != 0): ?>
+        <div class="alert alert-danger">
+            <strong>Thông báo: </strong> Không tồn tại hoá đơn số:  <?= $signal ?>
+        </div>
+        <?php endif; ?>
+    </p>
+    
     <p>Nhập những thông số cần tìm</p>
 
     <div class="row">
