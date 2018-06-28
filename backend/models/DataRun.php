@@ -81,6 +81,7 @@ class DataRun extends Model
         {
             $invoice_find = Invoice::findOne($id);
             $getDate = $invoice_find->date_on;
+            $price = $invoice_find->deposite_price;
             //$date_extended =  date('Y-m-d H:i:s', strtotime($getDate. ' + 30 days'));
             $date_extended =  date('Y-m-d H:i:s', strtotime($getDate. ' + 1 months'));  
             
@@ -88,6 +89,7 @@ class DataRun extends Model
             $invoiceLimit = new InvoiceLimit;
             $invoiceLimit->invoiceID = $id;
             $invoiceLimit->date_off = $date_extended;
+            $invoiceLimit->renew_fee = (($price * 3)/100);
             $invoiceLimit->userID = 1;
             $invoiceLimit->status = 1;
             $invoiceLimit->save();
@@ -109,7 +111,7 @@ class DataRun extends Model
             $invoiceLimit = new InvoiceLimit;
             $invoiceLimit->invoiceID = $id;
             $invoiceLimit->date_off = $date_off;
-            $invoiceLimit->userID = 1;
+            $invoiceLimit->userID = Yii::$app->session->get('userId');
             $invoiceLimit->save();
         }
 

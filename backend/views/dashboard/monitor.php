@@ -43,6 +43,7 @@
                         <th>Tên khách hàng</th>
                         <th>Nội dung</th>
                         <th>Lần gia hạn</th>
+                        <th>Phí gia hạn</th>
                         <th>Ngày sử dụng</th>
                     </tr>
                 </thead>
@@ -54,6 +55,7 @@
                         <th><?= $row['customerName'] ?></th>
                         <th><?= $row['description'] ?></th>
                         <th class="currency-converter"><?= $row['extended'] ?></th>
+                        <th class="currency-converter"><?php echo (($row['deposite_price']*3)/100); ?></th>
                         <th class="date-db"><?= $row['date_on'] ?></th>
                     </tr>
                  <?php endforeach; ?>

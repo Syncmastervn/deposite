@@ -118,10 +118,19 @@ class DashboardController extends Controller
             $invoice_update->update();
 
             $invoice = Invoice::findOne($id);
-            $invoiceLimit = InvoiceLimit::find()
-                            ->where(['invoiceID'=>$id])
-                            ->andWhere(['status'=>1])
-                            ->all();     
+            
+            $param = ['id'=>$id];
+            $invoiceLimit = Yii::$app->db->createCommand("
+                SELECT u.userName,  il.date_expands, il.date_off, il.renew_fee
+                FROM user AS u INNER JOIN invoice_limit AS il
+                ON u.userID = il.userID
+                WHERE il.invoiceID = :id
+                AND il.status = 1;",$param)->queryAll();
+            
+//            $invoiceLimit = InvoiceLimit::find()
+//                            ->where(['invoiceID'=>$id])
+//                            ->andWhere(['status'=>1])
+//                            ->all();     
             return $this->render('invoice_extend_success',['invoice'=>$invoice,'invoiceLimit'=>$invoiceLimit]);
             
         } else
@@ -466,6 +475,16 @@ class DashboardController extends Controller
         $invoiceUpdate = Invoice::find()
                 ->where(['date_update'=>$today])
                 ->all();
+        
+//        $record = Yii::$app->db->createCommand("
+//            SELECT * 
+//            FROM invoice_limit 
+//            WHERE invoiceID = :id AND status = 1 
+//            ORDER BY limitID DESC LIMIT 1",$param)->queryAll();
+//        foreach($record as $row){
+//            $searching = $row['limitID'];
+//            $invoiceLimit_date_off = $row['date_off'];
+//        }
         
         $invoiceDelete = Invoice::find()
                 ->where(['date_off'=>$today])

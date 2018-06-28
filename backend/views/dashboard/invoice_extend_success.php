@@ -24,18 +24,19 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
             <tr>
                 <th><?= $invoice['billCode']; ?></th>
                 <th><?= $invoice['customerName']; ?></th>
-                <th><?= $invoice['deposite_price']; ?></th>
+                <th class="currency-converter"><?= $invoice['deposite_price']; ?></th>
             </tr>
         </tbody>
     </table>
     
     <h2>Số lần gia hạn</h2>
-    <table id="datatable-invoice-limit" class="display compact">
+    <table id="datatable-invoice-limit" class="table table-striped">
         <thead>
-            <tr>
+            <tr class="success">
                 <th>Date Expanded</th>
                 <th>Date Off</th>
-                <th>Description</th>
+                <th>User</th>
+                <th>Fee</th>
             </tr>
         </thead>
         <tbody>
@@ -43,7 +44,8 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
             <tr>
                 <th><?= $row['date_expands'] ?></th>
                 <th><?= $row['date_off'] ?></th>
-                <th><?= $row['descriptions'] ?></th>
+                <th><?= $row['userName'] ?></th>
+                <th class="currency-converter"><?= $row['renew_fee'] ?></th>
             </tr>
             <? endforeach; ?>
         </tbody>

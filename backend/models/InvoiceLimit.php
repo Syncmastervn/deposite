@@ -11,12 +11,10 @@ use Yii;
  * @property int $invoiceID
  * @property string $date_expands
  * @property string $date_off
+ * @property int $renew_fee
  * @property int $userID
  * @property string $descriptions
  * @property int $status
- *
- * @property Invoice $invoice
- * @property User $user
  */
 class InvoiceLimit extends \yii\db\ActiveRecord
 {
@@ -34,12 +32,10 @@ class InvoiceLimit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['invoiceID', 'userID'], 'required'],
-            [['invoiceID', 'userID', 'status'], 'integer'],
+            [['invoiceID', 'renew_fee', 'userID'], 'required'],
+            [['invoiceID', 'renew_fee', 'userID', 'status'], 'integer'],
             [['date_expands', 'date_off'], 'safe'],
             [['descriptions'], 'string', 'max' => 200],
-            [['invoiceID'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['invoiceID' => 'invoiceID']],
-            [['userID'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userID' => 'userID']],
         ];
     }
 
@@ -53,25 +49,10 @@ class InvoiceLimit extends \yii\db\ActiveRecord
             'invoiceID' => 'Invoice ID',
             'date_expands' => 'Date Expands',
             'date_off' => 'Date Off',
+            'renew_fee' => 'Renew Fee',
             'userID' => 'User ID',
             'descriptions' => 'Descriptions',
             'status' => 'Status',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getInvoice()
-    {
-        return $this->hasOne(Invoice::className(), ['invoiceID' => 'invoiceID']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['userID' => 'userID']);
     }
 }
