@@ -107,10 +107,14 @@ class DataRun extends Model
             $date_string = '20' . $year . '-' . $month . '-' . $day . ' 10:00:00';
             $date_converted = strtotime($date_string);
             
+            $invoice = Invoice::findOne($id);
+            
+            
             $date_off = date('Y-m-d H:i:s', $date_converted);
             $invoiceLimit = new InvoiceLimit;
             $invoiceLimit->invoiceID = $id;
             $invoiceLimit->date_off = $date_off;
+            $invoiceLimit->renew_fee = (($invoice->deposite_price*3)/100);
             $invoiceLimit->userID = Yii::$app->session->get('userId');
             $invoiceLimit->save();
         }

@@ -124,8 +124,7 @@ class DashboardController extends Controller
                 SELECT u.userName,  il.date_expands, il.date_off, il.renew_fee
                 FROM user AS u INNER JOIN invoice_limit AS il
                 ON u.userID = il.userID
-                WHERE il.invoiceID = :id
-                AND il.status = 1;",$param)->queryAll();
+                WHERE il.invoiceID = :id;",$param)->queryAll();
             
 //            $invoiceLimit = InvoiceLimit::find()
 //                            ->where(['invoiceID'=>$id])
