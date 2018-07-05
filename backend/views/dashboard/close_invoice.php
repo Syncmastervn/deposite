@@ -26,13 +26,13 @@
             </tr>
         </thead>
         <tbody>
-        <? foreach($invoiceLimit as $row): ?>
+        <?php foreach($invoiceLimit as $row): ?>
             <tr>
                 <th><?= $row['date_expands'] ?></th>
                 <th><?= $row['date_off'] ?></th>
                 <th><?= $row['descriptions'] ?></th>
             </tr>
-        <? endforeach; ?>
+        <?php endforeach; ?>
         </tbody>
     </table>
 </div>

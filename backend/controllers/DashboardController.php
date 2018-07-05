@@ -37,7 +37,7 @@ class DashboardController extends Controller
      */
     public $variable = '';
     public $sess;
-    public $segment;
+    public $egment;
     public $behavior;
     public $isGuest;
     public $sql;
@@ -470,20 +470,18 @@ class DashboardController extends Controller
             $date = strtotime("today");
             $get_date = date("Y-m-d");
         }
+    
+        $params = ['today'=>$today];
         
-        $invoiceUpdate = Invoice::find()
-                ->where(['date_update'=>$today])
-                ->all();
-        
-//        $record = Yii::$app->db->createCommand("
-//            SELECT * 
-//            FROM invoice_limit 
-//            WHERE invoiceID = :id AND status = 1 
-//            ORDER BY limitID DESC LIMIT 1",$param)->queryAll();
-//        foreach($record as $row){
-//            $searching = $row['limitID'];
-//            $invoiceLimit_date_off = $row['date_off'];
-//        }
+        $invoiceUpdate = Yii::$app->db->createCommand("
+            SELECT i.extended, iL.limitID, i.deposite_price, i.date_on , i.customerName 
+            , iL.invoiceID ,  i.billCode, iL.userID, iL.renew_fee, iL.status
+            , iL.date_expands, iL.date_off
+            FROM invoice AS i JOIN invoice_limit AS iL 
+            ON i.invoiceID = iL.invoiceID
+            WHERE i.date_update >= :today
+            AND iL.date_expands >= :today
+            AND iL.status = 1;",$params)->queryAll();
         
         $invoiceDelete = Invoice::find()
                 ->where(['date_off'=>$today])

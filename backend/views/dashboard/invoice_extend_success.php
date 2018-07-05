@@ -40,14 +40,14 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
             </tr>
         </thead>
         <tbody>
-            <? foreach($invoiceLimit as $row): ?>
+            <?php foreach($invoiceLimit as $row): ?>
             <tr>
                 <th><?= $row['date_expands'] ?></th>
                 <th><?= $row['date_off'] ?></th>
                 <th><?= $row['userName'] ?></th>
                 <th class="currency-converter"><?= $row['renew_fee'] ?></th>
             </tr>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
 </div>
