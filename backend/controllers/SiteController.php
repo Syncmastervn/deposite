@@ -85,12 +85,15 @@ class SiteController extends Controller
             $userId = $this->sql->UserLogin($username,$password);
             if($userId !== false)
             {
+                $user = User::findOne($userId);
+                
                 $token = $this->sql->GenToken($userId);
                 $this->sess = Yii::$app->session;
                 $this->sess->open();
                 
                 $this->sess->set('userId',$userId);
                 $this->sess->set('token',$token);
+                $this->sess->set('authId',$user['authID']);
                 $this->sess->set('authority',$this->sql->authority($userId));
                 return $this->render('login_success',['username'=>$username]);
             } 

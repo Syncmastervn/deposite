@@ -68,7 +68,7 @@ AppAsset::register($this);
                     ['label' => 'Tạo hoá đơn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-create'],
                     ['label' => 'Tìm hoá đơn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/search'],
                     ['label' => 'Xoá gia hạn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-extend-delete'],
-                    
+                    ['label' => 'Quản lý người dùng', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/user-manager'],
                     ['label' => 'Đăng ký', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/register'],
                     ['label' => 'Đổi mật khẩu', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/changepassword'],
                     ['label' => 'Kiểm tra giao dịch', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/monitor'],

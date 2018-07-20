@@ -26,6 +26,7 @@ use backend\models\InvoiceCreateByDate;
 use backend\models\Register;
 use backend\models\ChangePassword;
 use backend\models\Monitor; 
+use backend\models\UserManager;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -76,13 +77,6 @@ class DashboardController extends Controller
             $token = $this->sql->GetToken($this->sess->get('userId'));
             if($this->sess->get('token') !== $token)
             {
-//                echo "Token: " . $token;
-//                echo ".|.";
-//                echo "Token session: " . $this->sess->get('token');
-//                echo ".|.";
-//                echo "UserID: " . $this->sess->get('userId');
-//                echo ".|.";
-//                echo "Test: " . $this->sess->get('test');
                 $this->redirect(array('site/login'));
             }   
         }  
@@ -620,6 +614,55 @@ class DashboardController extends Controller
                     echo 'false';
                 }
                 break;
+        }
+    }
+    
+    public function actionUserManager()
+    {
+        if($this->sess->get('authId')===1)
+        {
+            $user = Yii::$app->db->createCommand("
+                    SELECT au.authName, u.userName, u.status, u.fullName, u.userID
+                    FROM authority AS au INNER JOIN user AS u
+                    ON au.authID = u.authID
+                    WHERE u.status = 1;
+                ")->queryAll();
+            return $this->render('user_manager',['user'=>$user]);
+        } else
+        {
+            return $this->render('block-page',['content'=>"Nội dung chỉ hiển thị cho thẩm quyền Quản lý cấp cao !"]);
+        }
+        
+    }
+    
+    public function actionUserManagerEdit()
+    {
+        $request = Yii::$app->request;
+        $model = new UserManager();
+        $id = $request->get('id',0);
+        if($request->post())
+        {
+            $user = User::findOne($request->post('UserManager')['userID']);
+            $user->userName = $request->post('UserManager')['userName'];
+            $user->authID = $request->post('UserManager')['authName'];
+            $user->update();
+
+        } else
+        {
+           $params = ['id'=>$id];
+
+            $query = Yii::$app->db->createCommand("
+                    SELECT au.authName, u.userName, u.status, u.fullName, u.userID, u.password
+                    FROM authority AS au INNER JOIN user AS u
+                    ON au.authID = u.authID
+                    WHERE u.userID = :id;
+                ",$params)->queryOne();
+            $model->userID = $query['userID'];
+            $model->userName = $query['userName'];
+            $model->authName = $query['authName'];
+            $model->password = $query['password'];
+            $model->fullName = $query['fullName']; 
+            return $this->render('user_manager_edit',['model'=>$model]);
         }
     }
     
