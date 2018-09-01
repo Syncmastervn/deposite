@@ -128,9 +128,10 @@ class DataRun extends Model
             FROM invoice 
             WHERE invoiceID = :id
         ",$params)->queryOne();
-        
-        $hour = 12;
-        $get_day= strtotime("today $hour:00");
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $minutes = date('m');
+        $hour = date('h');
+        $get_day= strtotime("today $hour:$minutes:00");
         $today = date("Y-m-d H:i:s", $get_day);
         $invoice = Invoice::findOne($id);
         $invoice->status = 0;

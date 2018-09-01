@@ -17,8 +17,8 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
 
 <?php $form = ActiveForm::begin(['id'=>'CloseInvoiceFromDate']); ?>
 
-    <?= $form->field($model,'from_date') ?>
-    <?= $form->field($model,'to_date') ?>
+    <?= $form->field($model,'from_date',['inputOptions' => ['autoComplete'=>'off']]) ?>
+    <?= $form->field($model,'to_date', ['inputOptions' => ['autoComplete'=>'off']]) ?>
     <?= Html::submitButton('Tìm thông tin', ['class' => 'btn btn-success']) ?>
     
 <?php $form = ActiveForm::end(); ?>

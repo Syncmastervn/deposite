@@ -455,10 +455,10 @@ class DashboardController extends Controller
         if($model->load(Yii::$app->request->post()) && $model->validate())
         {
             $get_date = Yii::$app->request->post('Monitor')['date_search'];
-            $today = $get_date . " 12:00:00";          
+            $today = $get_date . " 1:00:00";          
         } else
         {
-            $hour = 12;
+            $hour = 1;
             $get_day= strtotime("today $hour:00");
             $today = date("Y-m-d H:i:s", $get_day);
             $date = strtotime("today");
@@ -477,8 +477,11 @@ class DashboardController extends Controller
             AND iL.date_expands >= :today
             AND iL.status = 1;",$params)->queryAll();
         
+        $addDate = date('Y-m-d H:i:s',strtotime($today . "+1 days"));
+        
         $invoiceDelete = Invoice::find()
-                ->where(['date_off'=>$today])
+                ->where(['>=','date_off',$today])
+                ->andWhere(['<=','date_off',$addDate])
                 ->andWhere(['status'=>0])
                 ->all();
 
@@ -540,18 +543,25 @@ class DashboardController extends Controller
     */
     
     public function actionTest(){
-//        echo Yii::getAlias('@web') . '/../uploads/' .  $this->behav->uploadFolder();
-//        echo "<br>";
-//        echo $this->behav->uploadFolder() . 'trungkien.jpg';
-        $mydate = "2018-01-14 08:00:00";
-        $month = date("m",strtotime($mydate));
-        $year = date("y",strtotime($mydate));
-        $day = date("d",strtotime($mydate));
-        echo $date_c = '20' . $year . '-' . $month . '-' . $day . ' 09:00:00';
+//        $mydate = "2018-01-14 08:00:00";
+//        $month = date("m",strtotime($mydate));
+//        $year = date("y",strtotime($mydate));
+//        $day = date("d",strtotime($mydate));
+//        echo $date_c = '20' . $year . '-' . $month . '-' . $day . ' 09:00:00';
+//        echo '<hr>';
+//        echo $date_off = strtotime($date_c);
+//        echo '<br>';
+//        echo date('Y-m-d H:i:s', $date_off);
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $hour = 1;
+        $get_day= strtotime("today $hour:00");
+        $today = date("Y-m-d H:i:s", $get_day);
+        echo date('d') . '-' . date('m') . '-' . date('Y');
+        $tomorow = date('Y-m-d H:i:s',strtotime($today . "+1 days"));
+        echo '<p>' . $tomorow;
         echo '<hr>';
-        echo $date_off = strtotime($date_c);
-        echo '<br>';
-        echo date('Y-m-d H:i:s', $date_off);
+        echo date('h');
+        echo ":" . date('m');
         
     }
     
