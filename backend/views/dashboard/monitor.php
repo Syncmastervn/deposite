@@ -84,6 +84,7 @@
                         <th>Số tiền cầm</th>
                         <th>Nội dung</th>
                         <th>Ngày sử dụng</th>
+                        <th>Phí Kết Thúc</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -95,6 +96,7 @@
                         <th class="currency-converter"><?= $row['deposite_price'] ?></th>
                         <th><?= $row['description'] ?></th>
                         <th class="date-db"><?= $row['date_on'] ?></th>
+                        <th class="currency-converter"><?= $row['price'] ?></th>
                     </tr>
                  <?php endforeach; ?>
                 <?php endif; ?>

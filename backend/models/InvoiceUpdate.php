@@ -16,12 +16,13 @@ class InvoiceUpdate extends Model
     public $weight;
     public $weight_total;
     public $extend;
+    public $price;
     public $id;
     
     
     public function rules(){
         return [
-            [['billcode','cus_name','cus_address','description','deposite','selling','weight','weight_total'],'required'],
+            [['billcode','cus_name','cus_address','description','deposite','selling','weight','weight_total','price'],'required'],
                 ['billcode','integer'],
                 ['cus_name','string'],
                 ['cus_mobile','integer'],

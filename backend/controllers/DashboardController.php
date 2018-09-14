@@ -27,6 +27,7 @@ use backend\models\Register;
 use backend\models\ChangePassword;
 use backend\models\Monitor; 
 use backend\models\UserManager;
+use backend\models\LimitReducer;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -192,33 +193,6 @@ class DashboardController extends Controller
         return $this->render('change-password',['model'=>$model,'signal'=>$signal]);
     }
     
-    public function actionInvoiceExtendDelete(){
-        $this->authority();
-        $model = new InvoiceLimitDelete();
-        $request = Yii::$app->request;
-        $billcode = null;
-        $invoice = null;
-        $id = $request->get('id',0);
-        if($id === 0)
-        {
-            if($model->load(Yii::$app->request->post()) && $model->validate())
-            {
-                $billcode = $request->post('InvoiceLimitDelete')['billcode'];
-                $invoice = Invoice::find()
-                        ->where(['billCode'=>$billcode])
-                        ->one();
-                if($invoice === null)
-                {
-                    $invoice = 0;
-                }
-            }
-        } else
-        {
-            $this->sql->InvoiceExtendDelete($id);
-        }
-        return $this->render('invoice_limit_delete',['model'=>$model,'invoice'=>$invoice]);
-    }
-    
     public function actionInvoiceCloseFromDate(){
         $model = new CloseInvoiceDate();
         $request = Yii::$app->request;
@@ -249,7 +223,8 @@ class DashboardController extends Controller
         if($request->post())
         {
             $idPost = $request->post('InvoiceUpdate')['id'];
-            $this->sql->CloseInvoice($idPost);
+            $price = $request->post('InvoiceUpdate')['price'];
+            $this->sql->CloseInvoice($idPost,$price);
             return $this->render('close_invoice_success');
         } elseif($id > 0)
         {
@@ -469,7 +444,7 @@ class DashboardController extends Controller
         
         $invoiceUpdate = Yii::$app->db->createCommand("
             SELECT i.extended, iL.limitID, i.deposite_price, i.date_on , i.customerName 
-            , iL.invoiceID ,  i.billCode, iL.userID, iL.renew_fee, iL.status
+            , iL.invoiceID ,  i.billCode, i.price, iL.userID, iL.renew_fee, iL.status
             , iL.date_expands, iL.date_off
             FROM invoice AS i JOIN invoice_limit AS iL 
             ON i.invoiceID = iL.invoiceID
@@ -489,7 +464,7 @@ class DashboardController extends Controller
                 ->where(['>=','date_on',$get_date . ' 8:00:00'])
                 ->andWhere(['<=','date_on',$get_date . ' 13:00:00'])
                 ->all();
-                //*** Mr. Nhân do a flavour 
+                //*** Mr. Nhân do a favour 
                 //->createCommand()->getRawSql();
                 //print_r($invoiceDelete);
         
@@ -526,6 +501,41 @@ class DashboardController extends Controller
         }
         return $this->render('upload_image', ['model' => $model]);
     }
+    
+    /**
+     * Reduce limit extends function
+     */
+    
+    public function actionLimitReducer()
+    {
+        $model = new LimitReducer();
+        $request = Yii::$app->request;
+        $invoice_id = $request->get('invoiceid',0);
+        $error = 1;
+        if($invoice_id > 0)
+        {      
+            $params = ['id'=>$invoice_id];
+            $record = Yii::$app->db->createCommand("SELECT date_on FROM invoice WHERE invoiceID = :id",$params)->queryOne();
+            
+            $invoice = Invoice::findOne($invoice_id);
+            $invoice->extended = $invoice->extended - 1;
+            $invoice->update();
+            
+            $invoice = Invoice::findOne($invoice_id);
+            $invoice->date_on = $record['date_on'];
+            $invoice->update();
+            
+            $iLDelete = InvoiceLimit::find()
+                ->where(['invoiceID' => $invoice_id])
+                ->orderBy(['limitID' => SORT_DESC])
+                ->one();
+        
+            $iLDelete->delete();
+            
+            $error = 0;
+        } 
+        return $this->render('messages',['message' => (($error === 0) ? 'Xoá gia hạn thành công' . ' khách hàng: ' . $invoice->customerName . ' Số lần gia hạn còn lại: ' . $invoice->extended : 'Không thể xoá gia hạn'),'title' => (($error === 0) ? 'Xoá gia hạn hoá đơn: ' . $invoice->billCode : 'Xoá gia hạn xảy ra lỗi')]);
+    }
 
     /**
      * Displays homepage.
@@ -543,25 +553,33 @@ class DashboardController extends Controller
     */
     
     public function actionTest(){
-//        $mydate = "2018-01-14 08:00:00";
-//        $month = date("m",strtotime($mydate));
-//        $year = date("y",strtotime($mydate));
-//        $day = date("d",strtotime($mydate));
-//        echo $date_c = '20' . $year . '-' . $month . '-' . $day . ' 09:00:00';
+//        date_default_timezone_set('Asia/Ho_Chi_Minh');
+//        $hour = 1;
+//        $get_day= strtotime("today $hour:00");
+//        $today = date("Y-m-d H:i:s", $get_day);
+//        echo date('d') . '-' . date('m') . '-' . date('Y');
+//        $tomorow = date('Y-m-d H:i:s',strtotime($today . "+1 days"));
+//        echo '<p>' . $tomorow;
 //        echo '<hr>';
-//        echo $date_off = strtotime($date_c);
-//        echo '<br>';
-//        echo date('Y-m-d H:i:s', $date_off);
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $hour = 1;
-        $get_day= strtotime("today $hour:00");
-        $today = date("Y-m-d H:i:s", $get_day);
-        echo date('d') . '-' . date('m') . '-' . date('Y');
-        $tomorow = date('Y-m-d H:i:s',strtotime($today . "+1 days"));
-        echo '<p>' . $tomorow;
-        echo '<hr>';
-        echo date('h');
-        echo ":" . date('m');
+//        echo date('h');
+//        echo ":" . date('m');
+        $iLDelete = InvoiceLimit::find()
+                ->where(['invoiceID' => 177])
+                ->orderBy(['limitID' => SORT_DESC])
+                ->one();
+        
+        $iLDelete->delete();
+        
+        $invoiceLimit = InvoiceLimit::find()
+                ->where(['invoiceID' => 177])
+                ->orderBy(['limitID' => SORT_DESC])
+                ->all();
+        
+        //echo var_dump($invoiceLimit); 
+        foreach($invoiceLimit as $row)
+        {
+            echo $row['invoiceID'] . '-' . $row['renew_fee'] . '<br/>';
+        }
         
     }
     

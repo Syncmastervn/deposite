@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Applications/MAMP/htdocs/deposite/backend/views/dashboard/close_invoice_date.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/models/LimitReducer.php</file>
             <file>file:/Applications/MAMP/htdocs/deposite/backend/controllers/DashboardController.php</file>
-            <file>file:/Applications/MAMP/htdocs/deposite/backend/models/DataRun.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/models/InvoiceUpdate.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/views/dashboard/close_invoice.php</file>
+            <file>file:/Applications/MAMP/htdocs/deposite/backend/views/dashboard/limit-reducer.php</file>
         </group>
     </open-files>
 </project-private>

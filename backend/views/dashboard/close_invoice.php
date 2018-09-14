@@ -13,6 +13,7 @@
     <?= $form->field($invoice,'cus_mobile') ?>
     <?= $form->field($invoice,'deposite') ?>
     <?= $form->field($invoice,'description')->textArea(['rows'=>4]); ?>
+    <?= $form->field($invoice,'price') ?>
     <?= Html::submitButton('Kết thúc hoá đơn', ['class' => 'btn btn-success']) ?>
     
     <?php $form = ActiveForm::end(); ?>

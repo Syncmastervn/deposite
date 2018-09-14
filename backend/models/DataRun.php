@@ -121,7 +121,7 @@ class DataRun extends Model
 
     }
     
-    public function CloseInvoice($id){
+    public function CloseInvoice($id,$price){
         $params = ['id'=>$id];
         $record = Yii::$app->db->createCommand("
             SELECT date_on 
@@ -141,6 +141,7 @@ class DataRun extends Model
         $invoice = Invoice::findOne($id);
         $invoice->status = 0;
         $invoice->date_on = $record['date_on'];
+        $invoice->price = $price;
         $invoice->update();
         
         InvoiceLimit::updateAll(['status' => 0], ['like','invoiceID',$id]);
@@ -211,25 +212,6 @@ class DataRun extends Model
         $record->save();
         $invoiceId = Yii::$app->db->getLastInsertID();
         return $invoiceId;
-    }
-    
-    public function InvoiceExtendDelete($id){
-        $invoice = Invoice::findOne($id);
-        $date_on = $invoice->date_on;
-        $extended = $invoice->extended;
-        $invoice->extended = $extended - 1;
-        $invoice->update();
-
-        $invoice = Invoice::findOne($id);
-        $invoice->date_on = $date_on;
-        $invoice->update();
-
-        $invoiceLimit = InvoiceLimit::find()
-                ->where(['invoiceID'=>$id])
-                ->orderBy(['limitID'=>SORT_DESC])
-                ->one();
-        $invoiceLimit->delete();
-
     }
     
 }
