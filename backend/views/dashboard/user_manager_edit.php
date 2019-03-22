@@ -17,14 +17,14 @@
 <hr>
 <div class="row">
     <div class="col-md-6">
-        <?php $form = ActiveForm::begin(['id'=>'UserManager']); ?>
-     <?= $form->field($model, 'userID')->textInput(['readOnly'=>true]); ?>
-     <?= $form->field($model,'userName'); ?>
-     <?= $form->field($model,'password')->passwordInput(); ?>
-     <?= $form->field($model,'fullName'); ?>
-     <?= $form->field($model,'authName')->dropDownList($listData,['prompt'=>$model['authName']]); ?>
-     <?= Html::submitButton('Update',['class'=>'btn btn-success']); ?>
-<?php $form = ActiveForm::end(); ?>
+    <?php $form = ActiveForm::begin(['id'=>'UserManager']); ?>
+        <?= $form->field($model,'userID')->textInput(['readOnly'=>true]); ?>
+        <?= $form->field($model,'userName'); ?>
+        <?= $form->field($model,'password')->passwordInput(); ?>
+        <?= $form->field($model,'fullName'); ?>
+        <?= $form->field($model,'authName')->dropDownList($listData,['prompt'=>$model['authName']]); ?>
+        <?= Html::submitButton('Update',['class'=>'btn btn-success']); ?>
+    <?php $form = ActiveForm::end(); ?>
     </div>
     <div class="col-md-6"></div>
 </div>

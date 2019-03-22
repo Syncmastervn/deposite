@@ -15,6 +15,10 @@ $(document).ready(function(){
         $("label[for='invoicecreate-selling']").text("Giá trị sản phẩm: " + n);
     });
     
+    $("#invoicecreate-date_on").datepicker({
+        dateFormat: "yy-mm-dd"
+    });
+    
     //Check billcode exists 
     $("#invoicecreate-type").focus(function(){
         console.log("ajax on");
@@ -53,7 +57,6 @@ $(document).ready(function(){
                 $(".message-content").html(content);
                 
                 $("#modalButton").click();
-                //updateDistrict();
             }
             
         });

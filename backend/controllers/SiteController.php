@@ -65,6 +65,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->authority();
         return $this->render('index');
     }
     
@@ -164,21 +165,7 @@ class SiteController extends Controller
     public function actionDatatable(){
         return $this->render('datatable');
     }
-    
-    public function actionTestt(){
-//        $this->sess = Yii::$app->session;
-//        echo "<h2>TESTING</h2>";
-//        echo $this->variable;
-//        echo "<br>+";
-//        echo $this->actionActive;
-//        echo "<br>+";
-//        echo Yii::$app->controller->action->id;
-//        echo "<br><br><h2>Session</h2>" . $this->sess['authority'];
-//        echo "URL: "  . $_SERVER['SERVER_NAME'] . $this->localhost . '_'. Yii::getAlias('@web'); 
-        echo Yii::$app->params['localing'];
-//return $this->render('test.twig',['variable'=>'Kien Mad']);
-    }
- 
+
     /*
     * BEHAVIOR testing @KIEN CODE
     */

@@ -376,23 +376,35 @@ class DashboardController extends Controller
                 'description'   => $request->post('InvoiceCreate')['description'],
                 'type'          => $request->post('InvoiceCreate')['type']
             ];
-
-            $result = $this->sql->CreateInvoice($data);
+            
+            $invoice_chk = Invoice::find()
+                        ->where(['customerName' => $data['cus_name']])
+                        ->andWhere(['description' => $data['description']])
+                        ->andWhere(['weight_total' => $data['weight_total']])
+                        ->one();
+            if($invoice_chk === null)
+            {
+                $result = $this->sql->CreateInvoice($data);
 
             
-            return $this->render('create_invoice_success',[
-                'billcode'      => $data['billcode'],
-                'cus_name'      => $data['cus_name'],
-                'cus_mobile'    => $data['cus_mobile'],
-                'cus_address'   => $data['cus_address'],
-                'deposite'      => $data['deposite'],
-                'weight'        => $data['weight'],
-                'selling'       => $data['selling'],
-                'weight_total'  => $data['weight_total'],
-                'description'   => $data['description'],
-                'type'          => $data['type'],
-                'id'            => $result                          
-            ]);
+                return $this->render('create_invoice_success',[
+                    'billcode'      => $data['billcode'],
+                    'cus_name'      => $data['cus_name'],
+                    'cus_mobile'    => $data['cus_mobile'],
+                    'cus_address'   => $data['cus_address'],
+                    'deposite'      => $data['deposite'],
+                    'weight'        => $data['weight'],
+                    'selling'       => $data['selling'],
+                    'weight_total'  => $data['weight_total'],
+                    'description'   => $data['description'],
+                    'type'          => $data['type'],
+                    'id'            => $result                          
+                ]);
+            } else
+            {
+                return $this->render('messages',['title' => 'Khoá tạo trùng hoá đơn','message' => 'Hoá đơn đã tạo có nội dung và tên khách hàng giống với hoá đơn có mã số <b>' . $invoice_chk['billCode'] . '</b>']);
+            }
+            
         } else
         {
             $hour = 8;
@@ -508,7 +520,7 @@ class DashboardController extends Controller
     
     public function actionLimitReducer()
     {
-        $model = new LimitReducer();
+        $model = new LimitReducer(); //This code line dose not use - can be delete ?
         $request = Yii::$app->request;
         $invoice_id = $request->get('invoiceid',0);
         $error = 1;
@@ -546,7 +558,6 @@ class DashboardController extends Controller
     {
         return $this->render('index');
     }
-        
     
     /*
     * Tetsing code
@@ -670,11 +681,22 @@ class DashboardController extends Controller
         $id = $request->get('id',0);
         if($request->post())
         {
+            echo "This is post";
             $user = User::findOne($request->post('UserManager')['userID']);
             $user->userName = $request->post('UserManager')['userName'];
-            $user->authID = $request->post('UserManager')['authName'];
-            $user->update();
-
+            $user->authID = (int)$request->post('UserManager')['authName'];
+            $user->password = md5($request->post('UserManager')['password']);
+            if(!$user->update())
+            {
+                echo "<p>_failed";
+            }
+            else
+            {
+                return $this->render('messages',[
+                    'message'=>'Thay đổi thành công',
+                    'title'=>'Manager Edit'
+                    ]);
+            }
         } else
         {
            $params = ['id'=>$id];
@@ -696,6 +718,15 @@ class DashboardController extends Controller
     
     public function actionModal(){
         return $this->render('bootstrap-modal');
+    }
+    
+    public function actionSendMail(){
+        return Yii::$app->mailer->compose()
+                ->setFrom('trungkien.kimlan@gmail.com')
+                ->setTo('trung-kien@hotmail.com')
+                ->setSubject('Yii2 test push notification')
+                ->setTextBody('This is content Body')
+                ->send();
     }
     
 }

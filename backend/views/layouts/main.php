@@ -38,6 +38,10 @@ AppAsset::register($this);
         background: -ms-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
         background: linear-gradient(to bottom, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5f6f80', endColorstr='#37424d', GradientType=0 );
+        
+    }
+    .navbar {
+        color: red;
     }
     </style>
 </head>
@@ -55,7 +59,7 @@ AppAsset::register($this);
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse my-navbar navbar-fixed-top',
+            'class' => '',
         ],
     ]);
     $menuItems = [
@@ -79,14 +83,7 @@ AppAsset::register($this);
         //['label' => 'Logout', 'url' => ['/site/logout']]
         ]];
     
-//    $menuItems[] = '<li>'
-//        . Html::beginForm(['/site/logout'], 'post')
-//        . Html::submitButton(
-//            'Logout',
-//            ['class' => 'btn btn-success logout']
-//        )
-//        . Html::endForm()
-//        . '</li>';
+
     
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -113,7 +110,13 @@ AppAsset::register($this);
                 if($sessGet === null): ?>
             <b>Chưa đăng nhập</b>
             <?php else: ?>
-            <b>Người dùng hợp lệ</b>
+            <b>User: </b> 
+            <?php 
+                    if($sessGet === 1) 
+                        echo "Quản lý cấp cao";
+                    else if($sessGet === 2)
+                        echo "Nhân viên";
+            ?>
             <?php endif; ?>
         </p>
 

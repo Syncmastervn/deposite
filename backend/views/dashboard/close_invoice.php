@@ -3,6 +3,7 @@
     use yii\widgets\ActiveForm;
     $this->title = 'Close Invoice';
     $this->params['breadcrumbs'][] = $this->title;
+    $this->registerJsFile(Yii::getAlias('@web').'/js/close-invoice.js',['depends' => 'yii\web\JqueryAsset']);
 ?>
 <div class="close-invoice-site">
    <h2>Hoá đơn cần kết thúc</h2>
