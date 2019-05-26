@@ -20,21 +20,19 @@
 
     $hosting = $_SERVER['SERVER_NAME'] . ":80" . '/deposite/uploads/';
 ?>
-
-
-
 <center>
     <h2>Đã tìm thấy hoá đơn</h2>
 </center>
-<table id="datatable" class="display compact">
+<br/><?php echo ($duplicate === true)? "<b>duplicate</b>" : "<b>no duplicate</b>" ; ?>
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Mã hoá đơn</th>
-            <th>Tên khách hàng</th>
-            <th>Số tiền cầm</th>
-            <th>Lần Gia Hạn</th>
-            <th>Nội dung</th>
-            <th>Thao tác</th>
+            <th class="col-md-1">Mã số</th>
+            <th class="col-md-2">Tên khách hàng</th>
+            <th class="col-md-2">Số tiền cầm</th>
+            <th class="col-md-1">Gia Hạn</th>
+            <th class="col-md-3">Nội dung</th>
+            <th class="col-md-3">Thao tác</th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +50,7 @@
                 <?php if(Yii::$app->session->get('userId') == 1): ?>
                     <a href="index.php?r=dashboard/limit-reducer&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'minus_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
                 <?php endif; ?>
+                <a href="index.php?r=dashboard/invoice-lose&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'warning_icon.png', ['alt' => 'My logo','height'=>28,'width'=>28]) ?></a>
                 <?php echo Html::a('Gia hạn', ['dashboard/invoice-extend', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
             
            
@@ -60,3 +59,25 @@
     <?php endforeach; ?>
     </tbody>
 </table>
+<center><h3>Các Lần Đã Gia Hạn</h3></center>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="col-md-2">Invoice ID</th>
+            <th class="col-md-2">Date expands</th>
+            <th class="col-md-2">Date Off</th>
+            <th class="col-md-2">Renew fee</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($invoiceLimit as $row): ?>
+        <tr>
+            <th><?= $row['invoiceID'] ?></th>
+            <th class="date-db"><?= $row['date_expands'] ?></th>
+            <th class="date-db"><?= $row['date_off'] ?></th>
+            <th class="currency-converter"><?= $row['renew_fee'] ?></th>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+

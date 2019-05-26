@@ -100,7 +100,14 @@ class SiteController extends Controller
     
     public function actionIndex()
     {
-
+        $invoiceLose = Invoice::find()
+                ->where(['status' => 2])
+                ->All();
+        
+        $invoiceOutDate = Yii::$app->db->createCommand("
+        SELECT customerName, billCode, DATEDIFF(CURDATE(), date_on) AS date_iff, extended, description, selling_price, cusMobile 
+        FROM invoice 
+        WHERE DATEDIFF(CURDATE(), date_on) > 80 AND status > 0")->queryAll();
         
         $record = Yii::$app->db->createCommand("
         SELECT iv.billCode, iv.image, iv.customerName, iv.deposite_price, DATE(iv.date_on) AS date, iv.status, iv.description, iv.cusMobile, iv.extended, pro.name 
@@ -115,6 +122,8 @@ class SiteController extends Controller
         return $this->render('index',[  
             'data'          =>$record,
             'depositeSum'   =>$deposite_price_sum['depositeSum'],
+            'invoiceLose'   =>$invoiceLose,
+            'invoiceOutDate'=>$invoiceOutDate,
             'imageFolder'   =>'http://' .  $this->mybehavior->uploadFolder()
         ]);
     }

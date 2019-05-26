@@ -23,6 +23,7 @@ use Yii;
  * @property string $date_on
  * @property string $date_update
  * @property string $date_off
+ * @property string $date_lose
  * @property int $price
  * @property int $date_live
  * @property string $description
@@ -47,7 +48,7 @@ class Invoice extends \yii\db\ActiveRecord
         return [
             [['billCode', 'customerName', 'cusAddress', 'userID', 'deposite_price', 'selling_price', 'weight_total', 'weight_gold', 'typeID'], 'required'],
             [['userID', 'deposite_price', 'selling_price', 'weight_total', 'weight_gold', 'typeID', 'price', 'date_live', 'extended', 'status'], 'integer'],
-            [['date_on', 'date_update', 'date_off'], 'safe'],
+            [['date_on', 'date_update', 'date_off', 'date_lose'], 'safe'],
             [['billCode', 'customerName', 'image'], 'string', 'max' => 50],
             [['cusAddress'], 'string', 'max' => 100],
             [['cusMobile'], 'string', 'max' => 30],
@@ -78,6 +79,7 @@ class Invoice extends \yii\db\ActiveRecord
             'date_on' => 'Date On',
             'date_update' => 'Date Update',
             'date_off' => 'Date Off',
+            'date_lose' => 'Date Lose',
             'price' => 'Price',
             'date_live' => 'Date Live',
             'description' => 'Description',

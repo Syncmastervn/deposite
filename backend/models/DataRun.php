@@ -92,6 +92,7 @@ class DataRun extends Model
             $invoiceLimit->renew_fee = (($price * 3)/100);
             $invoiceLimit->userID = 1;
             $invoiceLimit->status = 1;
+            
             $invoiceLimit->save();
         } elseif($searching > 0)
         {

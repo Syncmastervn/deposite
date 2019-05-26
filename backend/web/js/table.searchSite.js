@@ -11,7 +11,7 @@ $(document).ready(function(){
     
     $(".descript").each(function(){
         var content = $(this).html();
-        var str = content.slice(0,15);
+        var str = content.slice(0,45);
         $(this).html(str + "...");
     });
     

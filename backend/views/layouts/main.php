@@ -43,7 +43,7 @@ AppAsset::register($this);
     .navbar {
         color: red;
     }
-    </style>
+    </style>    
 </head>
 <body>
 <?php $this->beginBody() ?>

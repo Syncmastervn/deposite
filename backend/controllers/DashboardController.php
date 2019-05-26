@@ -309,7 +309,9 @@ class DashboardController extends Controller
         $model = new SearchInvoice();
         $request = Yii::$app->request;
         $signal = 0;
-        
+        $data_arr = 0;
+        $invoiceID = 0;
+        $invoiceLimit = null;
         if($model->load(Yii::$app->request->post()) && $model->validate() )
         {
             $data = [
@@ -317,14 +319,22 @@ class DashboardController extends Controller
                 'mobilde'   => $request->post('SearchInvoice')['mobile'],
                 'billcode'  => $request->post('SearchInvoice')['billcode']
             ];
-            //var_dump($data);
             echo "<br>";
             if($data['billcode'] != null)
             {
                 $result = $this->sql->SearchByBillCode($data['billcode']);
                 if($result != null)
                 {
-                    return $this->render('search_invoice_success',['data'=>$result]);
+                    $duplicate_result = (count($result)>1) ? true : false ; 
+                    foreach($result as $row)
+                    {
+                        $invoiceID = $row['invoiceID'];
+                    }
+                    $invoiceLimit = InvoiceLimit::find()
+                                ->where(['invoiceID'=>$invoiceID])
+                                ->orderBy(['date_off' => SORT_DESC])
+                                ->all();
+                    return $this->render('search_invoice_success',['data'=>$result,'invoiceLimit'=>$invoiceLimit,'duplicate'=>$duplicate_result]);
                 } 
                 else 
                 {
@@ -338,6 +348,33 @@ class DashboardController extends Controller
         }
         
         
+    }
+    
+    public function actionInvoiceLose(){
+        $request = Yii::$app->request;
+        $id = $request->get('id',0);
+        if($id != 0)
+        {
+             date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $t=time();
+            
+            $timestamp = date("Y-m-d h:i:s",$t);
+            $params = ['id'=>$id];
+            $getDb = Yii::$app->db->createCommand("SELECT date_on, billCode FROM invoice WHERE invoiceID = :id AND status = 1 LIMIT 1",$params)->queryOne();
+            
+            $invoice = Invoice::findOne($id);
+            $invoice->status = 2;
+            $invoice->date_lose = $timestamp;
+            $invoice->update();
+           
+            $invoice = Invoice::findOne($id);
+            $invoice->date_on = $getDb['date_on'];
+           
+            $invoice->update();
+            
+            $message = 'Hoá đơn mã số : ' . $getDb['billCode'] .' đã được đánh dấu ';
+            return $this->render('messages',['title' => 'Hoá đơn báo mất', 'message' => $message]);
+        }
     }
     
     public function actionInvoiceCreate(){
@@ -729,4 +766,18 @@ class DashboardController extends Controller
                 ->send();
     }
     
+    public function actionSqltest() {
+//        $inv_limit = InvoiceLimit::find()
+//                    ->where(['invoiceID' => 8])
+//                    ->all();
+//        echo ("this is demo <br>");
+//        $result = $this->sql->SearchByBillCode(96);
+//        echo (count($inv_limit));
+       date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $t=time();
+    echo($t . "<br>");
+    echo(date("Y-m-d h:i:s",$t));
+    echo "<br>";
+    echo date_default_timezone_get();
+    }
 }
