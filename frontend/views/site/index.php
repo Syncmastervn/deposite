@@ -83,7 +83,7 @@
               
                     $on = (($row['date_iff'] - ($row['extended'] * 30)) > 60) ? true : false;
                     if($on):
-                    $sum += $row['selling_price']
+                    $sum += $row['selling_price'];
             ?>
             <tr>
                 <th><?= $stt++; ?></th>
