@@ -23,7 +23,6 @@
 <center>
     <h2>Đã tìm thấy hoá đơn</h2>
 </center>
-<br/><?php echo ($duplicate === true)? "<b>duplicate</b>" : "<b>no duplicate</b>" ; ?>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -63,19 +62,19 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th class="col-md-2">Invoice ID</th>
+            <th class="col-md-2">Tên khách hàng</th>
+            <th class="col-md-2">Điện thoại</th>
             <th class="col-md-2">Date expands</th>
             <th class="col-md-2">Date Off</th>
-            <th class="col-md-2">Renew fee</th>
         </tr>
     </thead>
     <tbody>
     <?php foreach($invoiceLimit as $row): ?>
         <tr>
-            <th><?= $row['invoiceID'] ?></th>
+            <th><?= $row['customerName'] ?></th>
+            <th><?= $row['cusMobile'] ?></th>
             <th class="date-db"><?= $row['date_expands'] ?></th>
             <th class="date-db"><?= $row['date_off'] ?></th>
-            <th class="currency-converter"><?= $row['renew_fee'] ?></th>
         </tr>
     <?php endforeach; ?>
     </tbody>

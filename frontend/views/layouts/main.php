@@ -37,8 +37,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'Quản trị', 'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/deposite/backend/web/index.php?r=site/index'],
-        ['label' => 'Hoá đơn đóng', 'url' => ['/site/invoice-close']]
+        ['label' => 'Quản trị', 'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/deposite/backend/web/index.php?r=site/index']
+//        ['label' => 'Hoá đơn đóng', 'url' => ['/site/invoice-close']]
     ];
 //    if (Yii::$app->user->isGuest) {
 //        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];

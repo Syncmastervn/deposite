@@ -107,17 +107,19 @@ AppAsset::register($this);
             <?php 
                 $sessGet = Yii::$app->session->get('userId');
                 $authority = Yii::$app->session->get('authority');
+                $username = Yii::$app->session->get('username');
                 if($sessGet === null): ?>
             <b>Chưa đăng nhập</b>
             <?php else: ?>
             <b>User: </b> 
             <?php 
-                    if($sessGet === 1) 
+                    if($authority === 1) 
                         echo "Quản lý cấp cao";
-                    else if($sessGet === 2)
+                    else if($authority === 2)
                         echo "Nhân viên";
             ?>
             <?php endif; ?>
+            - <?= $username ?>
         </p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>

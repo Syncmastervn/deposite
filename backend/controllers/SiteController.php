@@ -96,6 +96,7 @@ class SiteController extends Controller
                 $this->sess->set('token',$token);
                 $this->sess->set('authId',$user['authID']);
                 $this->sess->set('authority',$this->sql->authority($userId));
+                $this->sess->set('username',$user['userName']);
                 return $this->render('login_success',['username'=>$username]);
             } 
         }

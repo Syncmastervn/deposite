@@ -310,7 +310,7 @@ class DashboardController extends Controller
         $request = Yii::$app->request;
         $signal = 0;
         $data_arr = 0;
-        $invoiceID = 0;
+        $invoiceID[] = 0;
         $invoiceLimit = null;
         if($model->load(Yii::$app->request->post()) && $model->validate() )
         {
@@ -326,14 +326,20 @@ class DashboardController extends Controller
                 if($result != null)
                 {
                     $duplicate_result = (count($result)>1) ? true : false ; 
+                    $i = 0;
                     foreach($result as $row)
                     {
-                        $invoiceID = $row['invoiceID'];
+                        $invoiceID[$i++] = $row['invoiceID'];
                     }
-                    $invoiceLimit = InvoiceLimit::find()
-                                ->where(['invoiceID'=>$invoiceID])
-                                ->orderBy(['date_off' => SORT_DESC])
-                                ->all();
+                    $params = ['bc'=>$data['billcode']];
+                    $invoiceLimit = Yii::$app->db->createCommand("
+                    SELECT i.customerName, i.cusMobile, iL.date_expands, iL.date_off
+                    FROM invoice AS i INNER JOIN invoice_limit AS iL
+                    ON i.invoiceID = iL.invoiceID
+                    WHERE i.status >= 1
+                    AND i.billCode = :bc
+                    ORDER BY i.customerName
+                    ",$params)->queryAll();
                     return $this->render('search_invoice_success',['data'=>$result,'invoiceLimit'=>$invoiceLimit,'duplicate'=>$duplicate_result]);
                 } 
                 else 
@@ -346,8 +352,6 @@ class DashboardController extends Controller
         {
             return $this->render('search_invoice',['model'=>$model,'signal'=>$signal]);
         }
-        
-        
     }
     
     public function actionInvoiceLose(){
@@ -378,6 +382,8 @@ class DashboardController extends Controller
     }
     
     public function actionInvoiceCreate(){
+        $this->authority();
+        
         $model = new InvoiceCreate();
         $request = Yii::$app->request;
         $result = null;
@@ -711,6 +717,12 @@ class DashboardController extends Controller
         
     }
     
+    public function actionPopup(){
+        $title = "popup";
+        $message = "This is message";
+        return $this->render('messages',['message'=>$message,'title'=>$title]);
+    }
+    
     public function actionUserManagerEdit()
     {
         $request = Yii::$app->request;
@@ -773,11 +785,32 @@ class DashboardController extends Controller
 //        echo ("this is demo <br>");
 //        $result = $this->sql->SearchByBillCode(96);
 //        echo (count($inv_limit));
-       date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $t=time();
-    echo($t . "<br>");
-    echo(date("Y-m-d h:i:s",$t));
-    echo "<br>";
-    echo date_default_timezone_get();
+//       date_default_timezone_set('Asia/Ho_Chi_Minh');
+//        $t=time();
+//    echo($t . "<br>");
+//    echo(date("Y-m-d h:i:s",$t));
+//    echo "<br>";
+//    echo date_default_timezone_get();
+        $invoice = Invoice::find()
+                ->select(['invoice.billCode','invoice_limit.invoiceID','invoice.extended','invoice.customerName','invoice_limit.date_expands'])
+                ->innerJoin('invoice_limit','invoice_limit.invoiceID = invoice.invoiceID')
+                ->where(['>=','invoice.status',1])
+                ->all();
+        
+        var_dump($invoice);
+                
+//        foreach($invoice as $row)
+//        {
+//            echo $row['billCode'];
+//            echo " - ";
+//            echo $row['invoiceID'];
+//            echo " - ";
+//            echo $row['customerName'];
+//            echo " : ";
+//            echo $row['extended'];
+//            echo " : ";
+//            echo $row['dexp'];
+//            echo "  <br>  ";
+//        }
     }
 }
