@@ -766,7 +766,8 @@ class DashboardController extends Controller
     }
     
     public function actionModal(){
-        return $this->render('bootstrap-modal');
+        //return $this->render('bootstrap-modal');
+        echo "hello";
     }
     
     public function actionSendMail(){

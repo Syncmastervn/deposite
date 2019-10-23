@@ -110,6 +110,7 @@
             <th>Số điện thoại</th>
             <th>Số tiền cầm</th>
             <th>Ngày sử dụng</th>
+            <th>Ngày cầm</th>
             <th>Gia hạn</th>
         </tr>
     </thead>
@@ -129,6 +130,7 @@
             <th><?= $row['cusMobile'] ?></th>
             <th class="currency-converter"><?= $row['deposite_price'] ?></th>
             <th class="date-db"><?= $row['date'] ?></th>
+            <th><?= $row['date'] ?></th>
             <th><?= $row['extended'] ?></th>
         </tr>
     <?php endforeach; ?>
