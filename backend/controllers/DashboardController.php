@@ -681,6 +681,7 @@ class DashboardController extends Controller
         $request = Yii::$app->request;
         switch($request->get('data'))
         {
+            //http://localhost/deposite/backend/web/index.php?r=dashboard/api&data=chkBillCode&billcode=120
             case 'chkBillCode':
                 $billcode = $request->get('billcode');
                 $dbResult = Invoice::find()
@@ -792,26 +793,17 @@ class DashboardController extends Controller
 //    echo(date("Y-m-d h:i:s",$t));
 //    echo "<br>";
 //    echo date_default_timezone_get();
-        $invoice = Invoice::find()
-                ->select(['invoice.billCode','invoice_limit.invoiceID','invoice.extended','invoice.customerName','invoice_limit.date_expands'])
-                ->innerJoin('invoice_limit','invoice_limit.invoiceID = invoice.invoiceID')
-                ->where(['>=','invoice.status',1])
-                ->all();
+//        $invoice = Invoice::find()
+//                ->select(['invoice.billCode','invoice_limit.invoiceID','invoice.extended','invoice.customerName','invoice_limit.date_expands'])
+//                ->innerJoin('invoice_limit','invoice_limit.invoiceID = invoice.invoiceID')
+//                ->where(['>=','invoice.status',1])
+//                ->all();
         
-        var_dump($invoice);
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $minutes = date('i');
+        $hour = date('h');
+        $get_day= strtotime("today $hour:$minutes:00");
+        echo (date("Y-m-d h:i:s",$get_day));
                 
-//        foreach($invoice as $row)
-//        {
-//            echo $row['billCode'];
-//            echo " - ";
-//            echo $row['invoiceID'];
-//            echo " - ";
-//            echo $row['customerName'];
-//            echo " : ";
-//            echo $row['extended'];
-//            echo " : ";
-//            echo $row['dexp'];
-//            echo "  <br>  ";
-//        }
     }
 }

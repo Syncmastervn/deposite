@@ -23,6 +23,8 @@
             <strong>Thông báo: </strong> Không tồn tại hoá đơn số:  <?= $signal ?>
         </div>
         <?php endif; ?>
+    
+    
     </p>
     
     <p>Nhập những thông số cần tìm</p>

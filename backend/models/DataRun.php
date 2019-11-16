@@ -130,7 +130,7 @@ class DataRun extends Model
             WHERE invoiceID = :id
         ",$params)->queryOne();
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $minutes = date('m');
+        $minutes = date('i');
         $hour = date('h');
         $get_day= strtotime("today $hour:$minutes:00");
         $today = date("Y-m-d H:i:s", $get_day);
