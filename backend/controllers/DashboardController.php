@@ -219,13 +219,11 @@ class DashboardController extends Controller
     
     public function actionInvoiceClose(){
         $request = Yii::$app->request;
-        $id = $request->get('id',0);
+        $id = $request->get('id',0);      
         if($request->post())
         {
             $idPost = $request->post('InvoiceUpdate')['id'];
             $price = $request->post('InvoiceUpdate')['price'];
-            $this->sql->CloseInvoice($idPost,$price);
-            return $this->render('close_invoice_success');
         } elseif($id > 0)
         {
             $model = new InvoiceUpdate();
@@ -312,7 +310,7 @@ class DashboardController extends Controller
         $data_arr = 0;
         $invoiceID[] = 0;
         $invoiceLimit = null;
-        if($model->load(Yii::$app->request->post()) && $model->validate() )
+        if($model->load(Yii::$app->request->post()) && $model->validate())
         {
             $data = [
                 'cus_name'  => $request->post('SearchInvoice')['cus_name'],
@@ -406,8 +404,8 @@ class DashboardController extends Controller
                     break;
             }
             
-            $data = [
-                'billcode'      => $request->post('InvoiceCreate')['billcode'],
+            $data = [ 
+               'billcode'      => $request->post('InvoiceCreate')['billcode'],
                 'date_on'       => $request->post('InvoiceCreate')['date_on'] . ' 08:00:00',
                 'cus_name'      => $request->post('InvoiceCreate')['cus_name'],
                 'cus_mobile'    => $request->post('InvoiceCreate')['cus_mobile'],

@@ -48,11 +48,10 @@
                 <a href="index.php?r=dashboard/invoice-update&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'edit_icon.ico', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
                 <?php if(Yii::$app->session->get('userId') == 1): ?>
                     <a href="index.php?r=dashboard/limit-reducer&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'minus_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
+                    <a href="index.php?r=dashboard/limit-reducer&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'unlock_icon.png', ['alt' => 'My logo','height'=>30,'width'=>30]) ?></a>
                 <?php endif; ?>
                 <a href="index.php?r=dashboard/invoice-lose&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'warning_icon.png', ['alt' => 'My logo','height'=>28,'width'=>28]) ?></a>
                 <?php echo Html::a('Gia hạn', ['dashboard/invoice-extend', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
-            
-           
             </th>
         </tr>
     <?php endforeach; ?>
