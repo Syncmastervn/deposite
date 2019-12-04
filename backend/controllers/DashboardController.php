@@ -224,6 +224,8 @@ class DashboardController extends Controller
         {
             $idPost = $request->post('InvoiceUpdate')['id'];
             $price = $request->post('InvoiceUpdate')['price'];
+            $this->sql->CloseInvoice($idPost,$price);
+            return $this->render('close_invoice_success');
         } elseif($id > 0)
         {
             $model = new InvoiceUpdate();
@@ -365,7 +367,8 @@ class DashboardController extends Controller
             $getDb = Yii::$app->db->createCommand("SELECT date_on, billCode FROM invoice WHERE invoiceID = :id AND status = 1 LIMIT 1",$params)->queryOne();
             
             $invoice = Invoice::findOne($id);
-            $invoice->status = 2;
+            $invoice->classify = 1;
+            
             $invoice->date_lose = $timestamp;
             $invoice->update();
            

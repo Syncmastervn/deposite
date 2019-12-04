@@ -209,6 +209,7 @@ class DataRun extends Model
         $record->description = $data['description'];
         $record->date_live = 1;
         $record->extended = 0;
+        $record->classify = 0;
         $record->status = 1;
         $record->save();
         $invoiceId = Yii::$app->db->getLastInsertID();

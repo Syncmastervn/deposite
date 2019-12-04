@@ -101,7 +101,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $invoiceLose = Invoice::find()
-                ->where(['status' => 2])
+                ->where(['classify' => 1])
                 ->All();
         
         $invoiceOutDate = Yii::$app->db->createCommand("
