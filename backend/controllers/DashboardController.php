@@ -236,6 +236,7 @@ class DashboardController extends Controller
             $model->cus_mobile = $invoice['cusMobile'];
             $model->deposite = $invoice['deposite_price'];
             $model->description = $invoice['description'];
+            $model->classify = $invoice['classify'];
             
             $invoiceLimit = InvoiceLimit::find()
                             ->where(['invoiceID'=>$id])
@@ -378,7 +379,7 @@ class DashboardController extends Controller
             $invoice->update();
             
             $message = 'Hoá đơn mã số : ' . $getDb['billCode'] .' đã được đánh dấu ';
-            return $this->render('messages',['title' => 'Hoá đơn báo mất', 'message' => $message]);
+            return $this->render('messages',['title' => 'Hoá đơn báo mất', 'message' => $message, 'status'=>0]);
         }
     }
     
@@ -446,7 +447,7 @@ class DashboardController extends Controller
                 ]);
             } else
             {
-                return $this->render('messages',['title' => 'Khoá tạo trùng hoá đơn','message' => 'Hoá đơn đã tạo có nội dung và tên khách hàng giống với hoá đơn có mã số <b>' . $invoice_chk['billCode'] . '</b>']);
+                return $this->render('messages',['title' => 'Khoá tạo trùng hoá đơn','message' => 'Hoá đơn đã tạo có nội dung và tên khách hàng giống với hoá đơn có mã số <b>' . $invoice_chk['billCode'] . '</b>','status'=>0]);
             }
             
         } else
@@ -510,7 +511,7 @@ class DashboardController extends Controller
         
         $addDate = date('Y-m-d H:i:s',strtotime($today . "+1 days"));
         
-        $invoiceDelete = Invoice::find()
+        $invoiceClose = Invoice::find()
                 ->where(['>=','date_off',$today])
                 ->andWhere(['<=','date_off',$addDate])
                 ->andWhere(['status'=>0])
@@ -529,7 +530,7 @@ class DashboardController extends Controller
             'model'=>$model,
             'invoiceCreate'=>$invoiceCreate,
             'invoiceUpdate'=>$invoiceUpdate,
-            'invoiceDelete'=>$invoiceDelete
+            'invoiceClose'=>$invoiceClose
             ]);
     }    
     
@@ -590,7 +591,7 @@ class DashboardController extends Controller
             
             $error = 0;
         } 
-        return $this->render('messages',['message' => (($error === 0) ? 'Xoá gia hạn thành công' . ' khách hàng: ' . $invoice->customerName . ' Số lần gia hạn còn lại: ' . $invoice->extended : 'Không thể xoá gia hạn'),'title' => (($error === 0) ? 'Xoá gia hạn hoá đơn: ' . $invoice->billCode : 'Xoá gia hạn xảy ra lỗi')]);
+        return $this->render('messages',['message' => (($error === 0) ? 'Xoá gia hạn thành công' . ' khách hàng: ' . $invoice->customerName . ' Số lần gia hạn còn lại: ' . $invoice->extended : 'Không thể xoá gia hạn'),'title' => (($error === 0) ? 'Xoá gia hạn hoá đơn: ' . $invoice->billCode : 'Xoá gia hạn xảy ra lỗi'),'status'=>0]);
     }
 
     /**
@@ -722,7 +723,7 @@ class DashboardController extends Controller
     public function actionPopup(){
         $title = "popup";
         $message = "This is message";
-        return $this->render('messages',['message'=>$message,'title'=>$title]);
+        return $this->render('messages',['message'=>$message,'title'=>$title,'status'=>0]);
     }
     
     public function actionUserManagerEdit()
@@ -745,7 +746,8 @@ class DashboardController extends Controller
             {
                 return $this->render('messages',[
                     'message'=>'Thay đổi thành công',
-                    'title'=>'Manager Edit'
+                    'title'=>'Manager Edit',
+                    'status'=>0
                     ]);
             }
         } else
@@ -781,7 +783,9 @@ class DashboardController extends Controller
                 ->send();
     }
     
-    public function actionSqltest() {
+    public function actionTester() {
+        return $this->render('messages',['message'=>'Noi dung thong bao','title'=>'Tieu de thong bao','status'=>0]);
+        
 //        $inv_limit = InvoiceLimit::find()
 //                    ->where(['invoiceID' => 8])
 //                    ->all();
@@ -800,11 +804,11 @@ class DashboardController extends Controller
 //                ->where(['>=','invoice.status',1])
 //                ->all();
         
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $minutes = date('i');
-        $hour = date('h');
-        $get_day= strtotime("today $hour:$minutes:00");
-        echo (date("Y-m-d h:i:s",$get_day));
-                
+//        date_default_timezone_set('Asia/Ho_Chi_Minh');
+//        $minutes = date('i');
+//        $hour = date('h');
+//        $get_day= strtotime("today $hour:$minutes:00");
+//        echo (date("Y-m-d h:i:s",$get_day));
+//                
     }
 }

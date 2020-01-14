@@ -15,6 +15,7 @@
     $this->registerJsFile(Yii::getAlias('@web').'/js/jquery.dataTables.min.js',['depends' => 'yii\web\JqueryAsset']);
     $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
     $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
+    $this->registerCssFile(Yii::getAlias('@web').'/css/monitor-page.css');
 ?>
 <div class="site-login">
  
@@ -71,7 +72,7 @@
     </div>
     <?php endif; ?>
     
-    <?php if(!empty($invoiceDelete)): ?>
+    <?php if(!empty($invoiceClose)): ?>
     <div class="row"> 
         <hr>
         <h3> Hoá đơn xoá </h3>
@@ -88,13 +89,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php if($invoiceDelete != null): ?>
-                 <?php foreach($invoiceDelete as $row): ?>
+                <?php if($invoiceClose != null): ?>
+                 <?php foreach($invoiceClose as $row): ?>
                     <tr>
                         <th><?= $row['billCode']; ?></th>
                         <th><?= $row['customerName'] ?></th>
                         <th class="currency-converter"><?= $row['deposite_price'] ?></th>
-                        <th><?= $row['description'] ?></th>
+                        <th>
+                            <?php if($row['classify'] == 1):?> 
+                                <span class="monitor-alert">Mất giấy tờ</span>
+                            <?php endif; ?>
+                                <?= $row['description'] ?>
+                        </th>
                         <th class="date-db"><?= $row['date_on'] ?></th>
                         <th class="currency-converter"><?= $row['price'] ?></th>
                     </tr>

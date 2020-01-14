@@ -4,10 +4,21 @@
     $this->title = 'Close Invoice';
     $this->params['breadcrumbs'][] = $this->title;
     $this->registerJsFile(Yii::getAlias('@web').'/js/close-invoice.js',['depends' => 'yii\web\JqueryAsset']);
+    $this->registerCssFile(Yii::getAlias('@web').'/css/close-invoice.css');
 ?>
 <div class="close-invoice-site">
    <h2>Hoá đơn cần kết thúc</h2>
     <?php $form = ActiveForm::begin(['id'=>'CreateInvoiceForm']); ?>
+    <?php if($invoice['classify'] == 1)
+          {
+    ?>  
+        <div class="deposite-danger">
+            Lưu ý: Hoá đơn đã được báo mất, vui lòng thông báo với quản lý cấp cao trước khi hoàn thành kết thúc hoá đơn này !
+        </div>
+    <?php
+          }
+    
+    ?>
     <?= $form->field($invoice,'id')->textInput(['readOnly'=>true]); ?>
     <?= $form->field($invoice,'billcode') ?>
     <?= $form->field($invoice,'cus_name') ?>
@@ -19,7 +30,7 @@
     
     <?php $form = ActiveForm::end(); ?>
     <h2>Số lần gia hạn</h2>
-    <table id="datatable-invoice-extend">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Ngày gia hạn</th>

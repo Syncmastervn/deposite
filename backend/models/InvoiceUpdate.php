@@ -17,6 +17,7 @@ class InvoiceUpdate extends Model
     public $weight_total;
     public $extend;
     public $price;
+    public $classify;
     public $id;
     
     
@@ -31,6 +32,7 @@ class InvoiceUpdate extends Model
                 ['weight','integer'],
                 ['weight_total','integer'],
                 ['cus_address','string'],
+                ['classify','integer'],
                 ['description','string']
         ];
     }
