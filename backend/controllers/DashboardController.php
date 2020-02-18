@@ -28,6 +28,7 @@ use backend\models\ChangePassword;
 use backend\models\Monitor; 
 use backend\models\UserManager;
 use backend\models\LimitReducer;
+use backend\models\ReportInvoiceCreated;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -217,6 +218,17 @@ class DashboardController extends Controller
         }
     }
     
+    public function actionChart(){
+        $model = new ReportInvoiceCreated();
+        $request = Yii::$app->request;
+        if($request->post())
+        {
+            $begin_date = $request->post('ReportInvoiceCreated')['begin_date'];
+            echo $begin_date;
+        }
+        return $this->render('report_invoice_created',['model'=>$model]);
+    }    
+    
     public function actionInvoiceClose(){
         $request = Yii::$app->request;
         $id = $request->get('id',0);      
@@ -225,7 +237,8 @@ class DashboardController extends Controller
             $idPost = $request->post('InvoiceUpdate')['id'];
             $price = $request->post('InvoiceUpdate')['price'];
             $this->sql->CloseInvoice($idPost,$price);
-            return $this->render('close_invoice_success');
+            $invoice = Invoice::findOne($idPost);
+            return $this->render('close_invoice_success',['invoice'=>$invoice]);
         } elseif($id > 0)
         {
             $model = new InvoiceUpdate();
