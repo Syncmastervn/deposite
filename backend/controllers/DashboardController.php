@@ -224,9 +224,37 @@ class DashboardController extends Controller
         if($request->post())
         {
             $begin_date = $request->post('ReportInvoiceCreated')['begin_date'];
-            echo $begin_date;
+            $end_date = $request->post('ReportInvoiceCreated')['end_date'];
+            $date1 = str_replace('-', '/', $end_date);
+            $end_date_add = date('Y-m-d',strtotime($date1 . "+1 days"));
+            $params = ['begin_date' => $begin_date, 'end_date' => $end_date_add];
+            $sum_records = Yii::$app->db->createCommand("
+                    SELECT 
+                        sum(deposite_price) AS sum_deposite_price,
+                        sum(selling_price) AS sum_selling_price,
+                        COUNT(invoiceID) AS count_invoice,
+                        sum(case when status = 0 then 1 else 0 end) AS sum_closed,
+                        sum(price) AS sum_price,
+                        MAX(deposite_price) AS max_deposite_price,
+                        MAX(price) AS max_price,
+                        MIN(deposite_price) AS min_deposite_price
+                    FROM invoice
+                    WHERE date_on >= :begin_date
+                    AND date_on < :end_date
+                ",$params)->queryOne();
+            $params = ['begin_date'=>$begin_date,'end_date'=>$end_date_add];
+            $sum_extend = Yii::$app->db->createCommand("
+                    SELECT 
+                        SUM(renew_fee) AS sum_renew_fee,
+                        COUNT(limitID) AS sum_limitID
+                    FROM invoice_limit
+                    WHERE date_expands >= :begin_date
+                    AND date_expands < :end_date
+                ",$params)->queryOne();
+            return $this->render('report_invoice_created',['model'=>$model,'sum_records'=>$sum_records,'begin_date'=>date("d/m/Y",strtotime($begin_date)),
+                                 'end_date'=>date("d/m/Y",strtotime($end_date)),'sum_extend'=>$sum_extend]);
         }
-        return $this->render('report_invoice_created',['model'=>$model]);
+        return $this->render('report_invoice_created',['model'=>$model,'sum_records'=>null]);
     }    
     
     public function actionInvoiceClose(){
@@ -746,7 +774,6 @@ class DashboardController extends Controller
         $id = $request->get('id',0);
         if($request->post())
         {
-            echo "This is post";
             $user = User::findOne($request->post('UserManager')['userID']);
             $user->userName = $request->post('UserManager')['userName'];
             $user->authID = (int)$request->post('UserManager')['authName'];

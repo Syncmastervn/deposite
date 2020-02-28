@@ -29,16 +29,11 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <style>
-    .my-navbar {
-        background: rgba(95,111,128,1);
-        background: -moz-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
-        background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(95,111,128,1)), color-stop(100%, rgba(55,66,77,1)));
-        background: -webkit-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
-        background: -o-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
-        background: -ms-linear-gradient(top, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
-        background: linear-gradient(to bottom, rgba(95,111,128,1) 0%, rgba(55,66,77,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5f6f80', endColorstr='#37424d', GradientType=0 );
-        
+    .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+        background-image: linear-gradient(to bottom, #f3f3f3, #ebebeb, #e3e3e3, #dbdbdb, #d3d3d3);
+    }
+    .wrap .navbar .navbar-default{
+        background-image: linear-gradient(to bottom, #f3f3f3, #ebebeb, #e3e3e3, #dbdbdb, #d3d3d3);
     }
     .navbar {
         color: red;
@@ -51,8 +46,6 @@ AppAsset::register($this);
      load _partial.php at views/folder, can use '/site/_partial' for more load
      </?= Yii::$app->controller->renderPartial('//_partial'); ?>
 -->
-
-
 <div class="wrap">
     <?php
     NavBar::begin([
@@ -72,6 +65,7 @@ AppAsset::register($this);
                     ['label' => 'Tạo hoá đơn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-create'],
                     ['label' => 'Tìm hoá đơn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/search'],
                     ['label' => 'Xoá gia hạn', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/invoice-extend-delete'],
+                    ['label' => 'Báo cáo', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/chart'],
                     ['label' => 'Quản lý người dùng', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/user-manager'],
                     ['label' => 'Đăng ký', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/register'],
                     ['label' => 'Đổi mật khẩu', 'url' => Yii::getAlias('@web').'/index.php?r=dashboard/changepassword'],
@@ -82,16 +76,13 @@ AppAsset::register($this);
                 ]
         //['label' => 'Logout', 'url' => ['/site/logout']]
         ]];
-    
-
-    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
     ]);
     NavBar::end();
     ?>
-
+    
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

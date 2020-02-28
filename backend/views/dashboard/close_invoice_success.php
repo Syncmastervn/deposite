@@ -9,7 +9,7 @@
 
 <center>
     <h1>Hoàn thành đóng hoá đơn</h1>
-    <h3 class="bg-primary"> Mã số hoá đơn : <?= $invoice->invoiceID; ?> </h3>
+    <h3 class="bg-primary"> Mã số hoá đơn : <?= $invoice->billCode; ?> </h3>
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <table class="table font-large">
