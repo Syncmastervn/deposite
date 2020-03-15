@@ -286,6 +286,10 @@ class DashboardController extends Controller
         }
     }
     
+    public function actionOutDate(){
+        
+    }
+    
     //dashboard/invoice-update
     public function actionInvoiceUpdate(){
         $request = Yii::$app->request;
@@ -528,7 +532,9 @@ class DashboardController extends Controller
         if($model->load(Yii::$app->request->post()) && $model->validate())
         {
             $get_date = Yii::$app->request->post('Monitor')['date_search'];
-            $today = $get_date . " 1:00:00";          
+            $today = $get_date . " 1:00:00";  
+            $begin_times = $get_date . " 01:00:00";
+            $end_times = $get_date . " 19:00:00";
         } else
         {
             $hour = 1;
@@ -536,19 +542,19 @@ class DashboardController extends Controller
             $today = date("Y-m-d H:i:s", $get_day);
             $date = strtotime("today");
             $get_date = date("Y-m-d");
+            $begin_times = $get_date . " 01:00:00";
+            $end_times = $get_date . " 19:00:00";
         }
     
-        $params = ['today'=>$today];
-        
+        $params = ['begin_times'=>$begin_times,'end_times'=>$end_times];
         $invoiceUpdate = Yii::$app->db->createCommand("
             SELECT i.extended, iL.limitID, i.deposite_price, i.date_on , i.customerName 
             , iL.invoiceID ,  i.billCode, i.price, iL.userID, iL.renew_fee, iL.status
             , iL.date_expands, iL.date_off
             FROM invoice AS i JOIN invoice_limit AS iL 
             ON i.invoiceID = iL.invoiceID
-            WHERE i.date_update >= :today
-            AND iL.date_expands >= :today
-            AND iL.status = 1;",$params)->queryAll();
+            WHERE iL.date_expands >= :begin_times
+            AND iL.date_expands <= :end_times;",$params)->queryAll();
         
         $addDate = date('Y-m-d H:i:s',strtotime($today . "+1 days"));
         

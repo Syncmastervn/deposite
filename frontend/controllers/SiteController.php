@@ -102,6 +102,7 @@ class SiteController extends Controller
     {
         $invoiceLose = Invoice::find()
                 ->where(['classify' => 1])
+                ->andWhere(['status' => 1])
                 ->All();
         
         $invoiceOutDate = Yii::$app->db->createCommand("

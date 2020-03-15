@@ -17,6 +17,8 @@
     $this->registerJsFile(Yii::getAlias('@web').'/js/table.searchSite.js',['depends' => 'yii\web\JqueryAsset']);
 
     $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
+    
+    $this->registerCssFile(Yii::getAlias('@web').'/css/hover-dropmenu.css');
 
     $hosting = $_SERVER['SERVER_NAME'] . ":80" . '/deposite/uploads/';
 ?>
@@ -44,14 +46,22 @@
             <th class="descript"><?= $row['description'] ?></th>
             <th>
             <!-- <img src="http://delete_icon.png"> -->
-                <a href="index.php?r=dashboard/invoice-close&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'delete_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
-                <a href="index.php?r=dashboard/invoice-update&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'edit_icon.ico', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
-                <?php if(Yii::$app->session->get('userId') == 1): ?>
-                    <a href="index.php?r=dashboard/limit-reducer&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'minus_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?></a>
-                    <a href="index.php?r=dashboard/limit-reducer&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'unlock_icon.png', ['alt' => 'My logo','height'=>30,'width'=>30]) ?></a>
+                
+                <?php echo Html::a('Gia hạn', ['dashboard/', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
+                <div class="dropdown">
+            <button class="dropbtn"> Chọn </button>
+            <div class="dropdown-content">
+              <a href="index.php?r=dashboard/invoice-close&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" > <?= Html::img('http://'.$hosting.'delete_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25])?>  Kết thúc </a>
+              <a href="index.php?r=dashboard/invoice-update&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'edit_icon.ico', ['alt' => 'My logo','height'=>25,'width'=>25]) ?> Chỉnh sửa  </a>
+              <?php if(Yii::$app->session->get('userId') == 1): ?>
+                    <a href="index.php?r=dashboard/limit-reducer&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'minus_icon.png', ['alt' => 'My logo','height'=>25,'width'=>25]) ?> Xoá gia hạn </a>
+                    <a href="index.php?r=dashboard/limit-reducer&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'unlock_icon.png', ['alt' => 'My logo','height'=>30,'width'=>30]) ?> Mở khoá </a>
+                    <a href="index.php?r=dashboard/outdate&invoiceid=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" class="reducer" ><?= Html::img('http://'.$hosting.'clock_icon.png', ['alt' => 'My logo','height'=>30,'width'=>30]) ?> Thanh Lý </a>
                 <?php endif; ?>
-                <a href="index.php?r=dashboard/invoice-lose&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'warning_icon.png', ['alt' => 'My logo','height'=>28,'width'=>28]) ?></a>
-                <?php echo Html::a('Gia hạn', ['dashboard/invoice-extend', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
+              <a href="index.php?r=dashboard/invoice-lose&id=<?= $row['invoiceID'] ?>&extend=<?= $row['extended'] ?>" ><?= Html::img('http://'.$hosting.'warning_icon.png', ['alt' => 'My logo','height'=>28,'width'=>28]) ?> Mất giấy tờ </a>
+              
+            </div>
+</div>
             </th>
         </tr>
     <?php endforeach; ?>
