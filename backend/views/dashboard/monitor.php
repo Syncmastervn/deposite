@@ -99,6 +99,9 @@
                             <?php if($row['classify'] == 1):?> 
                                 <span class="monitor-alert">Mất giấy tờ</span>
                             <?php endif; ?>
+                            <?php if($row['classify'] == 2): ?>
+                                <span class="monitor-alert">Thanh Lý</span>
+                            <?php endif; ?>
                                 <?= $row['description'] ?>
                         </th>
                         <th class="date-db"><?= $row['date_on'] ?></th>

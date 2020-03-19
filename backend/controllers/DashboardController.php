@@ -286,8 +286,37 @@ class DashboardController extends Controller
         }
     }
     
-    public function actionOutDate(){
-        
+    public function actionOutdate(){
+       $request = Yii::$app->request;
+       $id = $request->get('invoiceid',0);
+       if($id > 0)
+       {
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $minutes = date('i');
+            $hour = date('h');
+            $get_day= strtotime("today $hour:$minutes:00");
+            $today = date("Y-m-d H:i:s", $get_day);
+           
+            $params = ['id'=>$id];
+            $record = Yii::$app->db->createCommand("
+                SELECT date_on, extended, billCode 
+                FROM invoice 
+                WHERE invoiceID = :id 
+                AND status = 1 
+                LIMIT 1",$params)->queryOne();
+            $invoice = Invoice::findOne($id);
+            $invoice->status = 0;
+            $invoice->classify = 2;
+            $invoice->date_off = $today;
+            var_dump($record);
+            if($invoice->update() != false)
+            {
+                $invoice = Invoice::findOne($id);
+                $invoice->date_on = $record['date_on'];
+                $invoice->update();
+                return $this->render('messages',['title'=>'Thanh lý hoá đơn quá hạn','message'=>'Thanh lý thành công hoá đơn mã số: ' . $record['billCode'],'status'=>0]);
+            }
+       }
     }
     
     //dashboard/invoice-update

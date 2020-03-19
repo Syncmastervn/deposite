@@ -24,7 +24,8 @@ class InvoiceUpdate extends Model
     public function rules(){
         return [
             [['billcode','cus_name','cus_address','description','deposite','selling','weight','weight_total'],'required'],
-                ['price', 'required' , 'message' => 'Vui lòng nhập số tiền lãi'],
+                ['price','required' , 'message' => 'Vui lòng nhập số tiền lãi'],
+                ['price','integer','min'=>10000,'tooShort'=>Yii::t("translation", "{attribute} is too short.")],
                 ['billcode','integer'],
                 ['cus_name','string'],
                 ['cus_mobile','integer'],

@@ -12,7 +12,7 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
 
 $this->registerJsFile(Yii::getAlias('@web').'/js/jquery-ui.js',['depends' => 'yii\web\JqueryAsset']);  //date Picker - JqueryUi
 $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
-
+$this->registerCssFile(Yii::getAlias('@web').'/css/monitor-page.css');
 ?>
 
 <?php $form = ActiveForm::begin(['id'=>'CloseInvoiceFromDate']); ?>
@@ -43,7 +43,15 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
                <th><?= $row['billCode'] ?></th>
                <th><?= $row['customerName'] ?></th>
                <th class="currency-converter"><?= $row['deposite_price'] ?></th>
-               <th><?= $row['description'] ?></th>
+               <th>
+                    <?php if($row['classify'] == 1):?> 
+                        <span class="monitor-alert">Mất giấy tờ</span>
+                    <?php endif; ?>
+                    <?php if($row['classify'] == 2): ?>
+                        <span class="monitor-alert">Thanh Lý</span>
+                    <?php endif; ?>
+                    <?= $row['description'] ?>
+               </th>
                <th><?= $row['date_off'] ?></th>
            </tr>
         <?php endforeach; ?>
