@@ -75,7 +75,7 @@
     </div>
     <div class="col-md-3">
         <div class="report-block">
-        <b><span class="font-large currency-converter"><?= $sum_records['sum_price']; ?> đ</span></b>
+        <b><span class="font-large currency-converter"><?= $sum_records_off['sum_price']; ?> đ</span></b>
         <br>Tổng doanh thu kết thúc
         </div>
     </div>

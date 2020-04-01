@@ -234,7 +234,6 @@ class DashboardController extends Controller
                         sum(selling_price) AS sum_selling_price,
                         COUNT(invoiceID) AS count_invoice,
                         sum(case when status = 0 then 1 else 0 end) AS sum_closed,
-                        sum(price) AS sum_price,
                         MAX(deposite_price) AS max_deposite_price,
                         MAX(price) AS max_price,
                         MIN(deposite_price) AS min_deposite_price
@@ -243,6 +242,14 @@ class DashboardController extends Controller
                     AND date_on < :end_date
                 ",$params)->queryOne();
             $params = ['begin_date'=>$begin_date,'end_date'=>$end_date_add];
+            
+            $sum_records_off = Yii::$app->db->createCommand("
+                    SELECT
+                        sum(price) AS sum_price
+                    FROM invoice
+                    WHERE date_on >= :begin_date
+                    AND date_on < :end_date",$params)->queryOne();
+            
             $sum_extend = Yii::$app->db->createCommand("
                     SELECT 
                         SUM(renew_fee) AS sum_renew_fee,
@@ -251,7 +258,7 @@ class DashboardController extends Controller
                     WHERE date_expands >= :begin_date
                     AND date_expands < :end_date
                 ",$params)->queryOne();
-            return $this->render('report_invoice_created',['model'=>$model,'sum_records'=>$sum_records,'begin_date'=>date("d/m/Y",strtotime($begin_date)),
+            return $this->render('report_invoice_created',['model'=>$model,'sum_records_off'=>$sum_records_off,'sum_records'=>$sum_records,'begin_date'=>date("d/m/Y",strtotime($begin_date)),
                                  'end_date'=>date("d/m/Y",strtotime($end_date)),'sum_extend'=>$sum_extend]);
         }
         return $this->render('report_invoice_created',['model'=>$model,'sum_records'=>null]);

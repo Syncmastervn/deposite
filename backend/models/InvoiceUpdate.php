@@ -25,7 +25,7 @@ class InvoiceUpdate extends Model
         return [
             [['billcode','cus_name','cus_address','description','deposite','selling','weight','weight_total'],'required'],
                 ['price','required' , 'message' => 'Vui lòng nhập số tiền lãi'],
-                ['price','integer','min'=>10000,'tooShort'=>Yii::t("translation", "{attribute} is too short.")],
+                ['price','integer','min'=>10000],
                 ['billcode','integer'],
                 ['cus_name','string'],
                 ['cus_mobile','integer'],
