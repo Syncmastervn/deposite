@@ -11,6 +11,7 @@ $this->registerJsFile(Yii::getAlias('@web').'/js/close-invoice-by-date.js',['dep
 $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
 
 $this->registerJsFile(Yii::getAlias('@web').'/js/jquery-ui.js',['depends' => 'yii\web\JqueryAsset']);  //date Picker - JqueryUi
+$this->registerJsFile(Yii::getAlias('@web').'/js/currency_converter.js',['depends' => 'yii\web\JqueryAsset']);
 $this->registerCssFile(Yii::getAlias('@web').'/css/jquery-ui.css');
 $this->registerCssFile(Yii::getAlias('@web').'/css/monitor-page.css');
 ?>
@@ -42,7 +43,7 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/monitor-page.css');
            <tr>
                <th><?= $row['billCode'] ?></th>
                <th><?= $row['customerName'] ?></th>
-               <th class="currency-converter"><?= $row['deposite_price'] ?></th>
+               <th><span class="currency-converter"> <?= $row['deposite_price'] ?> </span></th>
                <th>
                     <?php if($row['classify'] == 1):?> 
                         <span class="monitor-alert">Mất giấy tờ</span>

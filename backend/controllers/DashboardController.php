@@ -247,8 +247,8 @@ class DashboardController extends Controller
                     SELECT
                         sum(price) AS sum_price
                     FROM invoice
-                    WHERE date_on >= :begin_date
-                    AND date_on < :end_date",$params)->queryOne();
+                    WHERE date_off >= :begin_date
+                    AND date_off < :end_date",$params)->queryOne();
             
             $sum_extend = Yii::$app->db->createCommand("
                     SELECT 
