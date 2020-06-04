@@ -31,11 +31,12 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/monitor-page.css');
    <table id="datatable">
        <thead>
            <tr>
-               <th>Mã HĐ</th>
-               <th>Tên khách hàng</th>
-               <th>Số tiền cầm</th>
-               <th>Nội dung</th>
-               <th>Ngày kết thúc</th>
+               <th width="5%">Mã HĐ</th>
+               <th width="10%">Tên khách hàng</th>
+               <th width="10%">Số tiền cầm</th>
+               <th width="35%">Nội dung</th>
+               <th width="10%">Điện thoại</th>
+               <th width="20%">Ngày kết thúc</th>
            </tr>
        </thead>
        <tbody>
@@ -53,6 +54,7 @@ $this->registerCssFile(Yii::getAlias('@web').'/css/monitor-page.css');
                     <?php endif; ?>
                     <?= $row['description'] ?>
                </th>
+               <th><?= $row['cusMobile'] ?></th>
                <th><?= $row['date_off'] ?></th>
            </tr>
         <?php endforeach; ?>

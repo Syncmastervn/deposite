@@ -130,7 +130,7 @@ class DashboardController extends Controller
             
         } else
         {
-            $this->redirect(array('site/index'));
+            //$this->redirect(array('site/index'));
         }
     }
     
@@ -245,7 +245,8 @@ class DashboardController extends Controller
             
             $sum_records_off = Yii::$app->db->createCommand("
                     SELECT
-                        sum(price) AS sum_price
+                        sum(price) AS sum_price,
+                        COUNT(invoiceID) AS sum_closed
                     FROM invoice
                     WHERE date_off >= :begin_date
                     AND date_off < :end_date",$params)->queryOne();
@@ -277,8 +278,8 @@ class DashboardController extends Controller
         } elseif($id > 0)
         {
             $model = new InvoiceUpdate();
-            $invoice = Invoice::findOne($id);
-            $model->id = $invoice['invoiceID'];
+            $invoice = Invoice::findOne($id); 
+           $model->id = $invoice['invoiceID'];
             $model->billcode = $invoice['billCode'];
             $model->cus_name = $invoice['customerName'];
             $model->cus_mobile = $invoice['cusMobile'];
@@ -291,6 +292,11 @@ class DashboardController extends Controller
                             ->all();
             return $this->render('close_invoice',['invoice'=>$model,'invoiceLimit'=>$invoiceLimit]);
         }
+    }
+    
+    public function actionInvoiceCloseSoon()
+    {
+        
     }
     
     public function actionOutdate(){
@@ -387,7 +393,6 @@ class DashboardController extends Controller
     
     public function actionSearch(){
         $this->authority();
-        
         $model = new SearchInvoice();
         $request = Yii::$app->request;
         $signal = 0;
@@ -761,7 +766,7 @@ class DashboardController extends Controller
                 ->one();
         var_dump($invoice);
     }
-    
+
     public function actionApi(){
         $request = Yii::$app->request;
         switch($request->get('data'))
@@ -777,6 +782,22 @@ class DashboardController extends Controller
                 if($dbResult != null)
                 {
                     echo json_encode($dbResult);
+                } else
+                {
+                    echo 'false';
+                }
+                break;
+            //http://localhost/deposite/backend/web/index.php?r=dashboard/api&data=invoiceInfo&billcode=120
+            case 'invoiceInfo':
+                $billcode = $request->get('billcode');
+                $result = Invoice::find()
+                        ->where(['billCode'=>$billcode])
+                        ->andWhere(['status'=>1])
+                        ->asArray()
+                        ->one();
+                if($result != null)
+                {
+                    echo json_encode($result);
                 } else
                 {
                     echo 'false';

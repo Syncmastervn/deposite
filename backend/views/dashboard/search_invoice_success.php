@@ -15,6 +15,8 @@
     $this->registerJsFile(Yii::getAlias('@web').'/js/jquery.dataTables.min.js',['depends' => 'yii\web\JqueryAsset']);
 
     $this->registerJsFile(Yii::getAlias('@web').'/js/table.searchSite.js',['depends' => 'yii\web\JqueryAsset']);
+    
+    $this->registerJsFile(Yii::getAlias('@web').'/js/currency_converter.js',['depends' => 'yii\web\JqueryAsset']);
 
     $this->registerCssFile(Yii::getAlias('@web').'/css/jqueryDataTables.css');
     
@@ -41,13 +43,13 @@
         <tr>
             <th><?= $row['billCode'] ?></th>
             <th><?= $row['customerName'] ?></th>
-            <th><?= $row['deposite_price'] ?></th>
+            <th class="currency-converter"><?= $row['deposite_price'] ?></th>
             <th><?= $row['extended'] ?></th>
             <th class="descript"><?= $row['description'] ?></th>
             <th>
             <!-- <img src="http://delete_icon.png"> -->
                 
-                <?php echo Html::a('Gia hạn', ['dashboard/', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
+                <?php echo Html::a('Gia hạn', ['dashboard/invoice-extend', 'id' => $row['invoiceID'], 'extend' => $row['extended']], ['class' => 'btn btn-primary btn-sm extend']); ?>
                 <div class="dropdown">
             <button class="dropbtn"> Chọn </button>
             <div class="dropdown-content">
