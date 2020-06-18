@@ -22,8 +22,8 @@ $(document).ready(function(){
     //Check billcode exists 
     $("#invoicecreate-type").focus(function(){
         //console.log("ajax on");
-        districtName = null;
-        districtId = null;
+//        districtName = null;
+//        districtId = null;
         $.ajax({
             url: "index.php",
             data: {

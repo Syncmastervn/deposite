@@ -697,33 +697,23 @@ class DashboardController extends Controller
     */
     
     public function actionTest(){
-//        date_default_timezone_set('Asia/Ho_Chi_Minh');
-//        $hour = 1;
-//        $get_day= strtotime("today $hour:00");
-//        $today = date("Y-m-d H:i:s", $get_day);
-//        echo date('d') . '-' . date('m') . '-' . date('Y');
-//        $tomorow = date('Y-m-d H:i:s',strtotime($today . "+1 days"));
-//        echo '<p>' . $tomorow;
-//        echo '<hr>';
-//        echo date('h');
-//        echo ":" . date('m');
-        $iLDelete = InvoiceLimit::find()
-                ->where(['invoiceID' => 177])
-                ->orderBy(['limitID' => SORT_DESC])
-                ->one();
-        
-        $iLDelete->delete();
-        
-        $invoiceLimit = InvoiceLimit::find()
-                ->where(['invoiceID' => 177])
-                ->orderBy(['limitID' => SORT_DESC])
-                ->all();
-        
-        //echo var_dump($invoiceLimit); 
-        foreach($invoiceLimit as $row)
-        {
-            echo $row['invoiceID'] . '-' . $row['renew_fee'] . '<br/>';
-        }
+//        $iLDelete = InvoiceLimit::find()
+//                ->where(['invoiceID' => 177])
+//                ->orderBy(['limitID' => SORT_DESC])
+//                ->one();
+//        
+//        $iLDelete->delete();
+//        
+//        $invoiceLimit = InvoiceLimit::find()
+//                ->where(['invoiceID' => 177])
+//                ->orderBy(['limitID' => SORT_DESC])
+//                ->all();
+//        
+//        //echo var_dump($invoiceLimit); 
+//        foreach($invoiceLimit as $row)
+//        {
+//            echo $row['invoiceID'] . '-' . $row['renew_fee'] . '<br/>';
+//        }
         
     }
     
@@ -766,6 +756,10 @@ class DashboardController extends Controller
                 ->one();
         var_dump($invoice);
     }
+    
+    public function actionCheckConstantly(){
+        return $this->render('check_constantly');
+    }
 
     public function actionApi(){
         $request = Yii::$app->request;
@@ -792,9 +786,9 @@ class DashboardController extends Controller
                 $billcode = $request->get('billcode');
                 $result = Invoice::find()
                         ->where(['billCode'=>$billcode])
-                        ->andWhere(['status'=>1])
+                        ->orderBy('date_on DESC')
                         ->asArray()
-                        ->one();
+                        ->One();
                 if($result != null)
                 {
                     echo json_encode($result);

@@ -21,9 +21,9 @@
         <?php 
             $sessGet = Yii::$app->session->get('userId');
             $authority = Yii::$app->session->get('authority');
-            if($sessGet === null): ?>
+            if($sessGet != 1): ?>
         <div class="alert alert-warning">
-            <strong>Chưa đăng nhập</strong> 
+            <strong>Nội dung chỉ hiển thị với quản lý cấp cao</strong> 
         </div>
         <?php else: ?>
         
@@ -71,6 +71,7 @@
                 <th>Stt</th>
                 <th>Mã số HĐ</th>
                 <th>Khách hàng</th>
+                <th>Điện thoại</th>
                 <th>Giá trị sp</th>
                 <th>Ngày quá hạn</th>
             </tr>
@@ -89,6 +90,7 @@
                 <th><?= $stt++; ?></th>
                 <th><?= $row['billCode'] ?></th>
                 <th><?= $row['customerName'] ?></th>
+                <th><?= $row['cusMobile'] ?></th>
                 <th class="currency-converter"><?= $row['selling_price'] ?></th>
                 <th><?= $row['date_iff'] - ($row['extended'] * 30) ?> ngày</th>
             </tr>
